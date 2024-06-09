@@ -3,7 +3,7 @@
 [![](https://img.shields.io/nuget/dt/soenneker.blazor.turnstile.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.blazor.turnstile/)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Blazor.Turnstile
-### A Blazor interop library for Cloudflare Turnstile captchas
+### A Blazor interop library for Cloudflare Turnstile
 
 This library simplifies the integration of Cloudflare Turnstile into Blazor applications, providing access to options, methods, and events. A demo project showcasing common usages is included.
 

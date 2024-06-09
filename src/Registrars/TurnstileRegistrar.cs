@@ -5,7 +5,7 @@ using Soenneker.Blazor.Turnstile.Abstract;
 namespace Soenneker.Blazor.Turnstile.Registrars;
 
 /// <summary>
-/// A Blazor interop library for Cloudflare Turnstile captchas
+/// A Blazor interop library for Cloudflare Turnstile
 /// </summary>
 public static class TurnstileRegistrar
 {

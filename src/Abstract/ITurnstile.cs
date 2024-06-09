@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Soenneker.Blazor.Turnstile.Abstract;
 
 /// <summary>
-/// A Blazor interop library for Cloudflare Turnstile captchas
+/// A Blazor interop library for Cloudflare Turnstile
 /// </summary>
 public interface ITurnstile
 {
