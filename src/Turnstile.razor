@@ -1,0 +1,219 @@
+@using System.Threading
+@using Microsoft.AspNetCore.Components.Routing
+@using Soenneker.Blazor.Turnstile.Abstract
+@using Microsoft.Extensions.Logging
+@using Microsoft.JSInterop
+@using Soenneker.Blazor.Turnstile.Options
+@inject NavigationManager Navigation
+
+@implements ITurnstile
+@inject ITurnstileInterop TurnstileInterop
+@inject ILogger<Turnstile> _logger
+
+<div id="@_elementId" class="cf-turnstile" ></div>
+
+@code {
+    private DotNetObjectReference<Turnstile>? _objRef;
+
+    private CancellationTokenSource _cTs;
+    private string _elementId;
+    private bool _shouldRender = true;
+
+    /// <summary>
+    /// Gets or sets the configuration options for the Turnstile widget.
+    /// </summary>
+    [Parameter]
+    public TurnstileOptions? Options { get; set; }
+
+    /// <summary>
+    /// Gets or sets the token that can be validated, populated upon successful challenge.
+    /// </summary>
+    [Parameter]
+    public string? Token { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback invoked when the token changes.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> TokenChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback invoked upon successful challenge completion, passing a token that can be validated.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnCallback { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback invoked when the token expires.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnExpiredCallback { get; set; }
+
+    /// <summary>
+    /// Gets or sets the callback invoked when an error occurs, such as a network error or challenge failure.
+    /// </summary>
+    [Parameter]
+    public EventCallback<string> OnErrorCallback { get; set; }
+
+    /// <summary>
+    /// Gets the widget ID.
+    /// </summary>
+    /// <remarks>
+    /// This is returned from Cloudflare JS once created, this is not the element's id used for initialization
+    /// </remarks>
+    public string? WidgetId { get; private set; }
+
+    private bool _initialized;
+
+    protected override bool ShouldRender() => _shouldRender;
+
+    public Turnstile()
+    {
+        _elementId = '_' + Guid.NewGuid().ToString();
+        _cTs = new CancellationTokenSource();
+    }
+
+    protected override void OnInitialized()
+    {
+        _objRef = DotNetObjectReference.Create(this);
+        Navigation.RegisterLocationChangingHandler(OnLocationChanging);
+    }
+
+    private ValueTask OnLocationChanging(LocationChangingContext context)
+    {
+        return DisposeAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (Options is {ManualCreate: true})
+            {
+                return;
+            }
+
+            await Create();
+
+            _shouldRender = false;
+        }
+    }
+
+    public async ValueTask Create(TurnstileOptions? options = null, CancellationToken cancellationToken = default)
+    {
+        _logger.LogDebug("Initializing Cloudflare Turnstile...");
+
+        if (_initialized)
+        {
+            _logger.LogError("Turnstile 'Create' cannot be called multiple times without destroying the instance first");
+            return;
+        }
+
+        _initialized = true;
+
+        if (options != null)
+            Options = options;
+
+        if (Options == null)
+        {
+            _logger.LogError("Turnstile cannot be setup because options have not been set");
+            return;
+        }
+
+        if (Options.SiteKey == null)
+        {
+            _logger.LogError("Turnstile 'Create' requires a 'SiteKey' to be set in the options");
+            return;
+        }
+
+        var internalOptions = new InternalTurnstileOptions
+        {
+            CallbackEventEnabled = OnCallback.HasDelegate,
+            OnErrorEventEnabled =  OnErrorCallback.HasDelegate,
+            OnExpiredEventEnabled = OnExpiredCallback.HasDelegate
+        };
+
+        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cTs.Token);
+
+        WidgetId = await TurnstileInterop.Create(_objRef, _elementId, Options, internalOptions, linkedCts.Token);
+    }
+
+    public async ValueTask Reset(CancellationToken cancellationToken = default)
+    {
+        if (WidgetId == null)
+        {
+            _logger.LogError("Turnstile 'Reset' cannot be called as it appears there was an error initializing");
+            return;
+        }
+
+        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cTs.Token);
+        await TurnstileInterop.Reset(WidgetId, linkedCts.Token);
+    }
+
+    public async ValueTask Remove(CancellationToken cancellationToken = default)
+    {
+        if (WidgetId == null)
+        {
+            _logger.LogError("Turnstile 'Reset' cannot be called as it appears there was an error initializing");
+            return;
+        }
+
+        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cTs.Token);
+        await TurnstileInterop.Remove(WidgetId, linkedCts.Token);
+    }
+
+    [JSInvokable]
+    public async Task Callback(string token)
+    {
+        Token = token;
+
+        if (TokenChanged.HasDelegate)
+            await TokenChanged.InvokeAsync(Token);
+
+        if (OnCallback.HasDelegate)
+            await OnCallback.InvokeAsync(token);
+    }
+
+    [JSInvokable]
+    public async Task ErrorCallback(string message)
+    {
+        _logger.LogError("Turnstile error: {Message}", message);
+
+        Token = null;
+
+        if (TokenChanged.HasDelegate)
+            await TokenChanged.InvokeAsync(Token);
+
+        if (OnErrorCallback.HasDelegate)
+            await OnErrorCallback.InvokeAsync(message);
+    }
+
+    [JSInvokable]
+    public async Task ExpiredCallback(string message)
+    {
+        _logger.LogError("Turnstile token has expired");
+
+        Token = null;
+
+        if (TokenChanged.HasDelegate)
+            await TokenChanged.InvokeAsync(Token);
+
+        if (OnExpiredCallback.HasDelegate)
+            await OnExpiredCallback.InvokeAsync(message);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (WidgetId != null)
+        {
+            await TurnstileInterop.Remove(WidgetId);
+            WidgetId = null;
+        }
+
+        await _cTs.CancelAsync();
+        _initialized = false;
+
+        _objRef?.Dispose();
+    }
+
+}

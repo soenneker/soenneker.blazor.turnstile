@@ -1,0 +1,58 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33209.295
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soenneker.Blazor.Turnstile", "src\Soenneker.Blazor.Turnstile.csproj", "{41850636-33B4-4228-AE59-A2113F66B9FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{4E42254D-039C-40ED-B3F4-8C1A94A366D1}"
+	ProjectSection(SolutionItems) = preProject
+		.github\renovate.json = .github\renovate.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{D786EC1A-4F59-412F-8624-83E6E3525B0C}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\automerge.yml = .github\workflows\automerge.yml
+		.github\workflows\build-and-test.yml = .github\workflows\build-and-test.yml
+		.github\workflows\publish-package.yml = .github\workflows\publish-package.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soenneker.Blazor.Turnstile.Tests", "test\Soenneker.Blazor.Turnstile.Tests\Soenneker.Blazor.Turnstile.Tests.csproj", "{6456E465-9523-4612-9115-9D9B585B42E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{AC1F82C5-B3CB-4961-94C1-A9D8B3D38741}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C71DF0BD-0A25-4601-9B3C-8905FBFAEC75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Soenneker.Blazor.Turnstile.Demo", "test\Soenneker.Blazor.Turnstile.Demo\Soenneker.Blazor.Turnstile.Demo.csproj", "{9847C679-253A-4910-97A6-9F8AA044083E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41850636-33B4-4228-AE59-A2113F66B9FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41850636-33B4-4228-AE59-A2113F66B9FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41850636-33B4-4228-AE59-A2113F66B9FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41850636-33B4-4228-AE59-A2113F66B9FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6456E465-9523-4612-9115-9D9B585B42E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6456E465-9523-4612-9115-9D9B585B42E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6456E465-9523-4612-9115-9D9B585B42E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6456E465-9523-4612-9115-9D9B585B42E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9847C679-253A-4910-97A6-9F8AA044083E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9847C679-253A-4910-97A6-9F8AA044083E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9847C679-253A-4910-97A6-9F8AA044083E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9847C679-253A-4910-97A6-9F8AA044083E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{41850636-33B4-4228-AE59-A2113F66B9FA} = {AC1F82C5-B3CB-4961-94C1-A9D8B3D38741}
+		{D786EC1A-4F59-412F-8624-83E6E3525B0C} = {4E42254D-039C-40ED-B3F4-8C1A94A366D1}
+		{6456E465-9523-4612-9115-9D9B585B42E8} = {C71DF0BD-0A25-4601-9B3C-8905FBFAEC75}
+		{9847C679-253A-4910-97A6-9F8AA044083E} = {C71DF0BD-0A25-4601-9B3C-8905FBFAEC75}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B849EC5C-B7B3-4C90-9B66-CBC15CCB776A}
+	EndGlobalSection
+EndGlobal

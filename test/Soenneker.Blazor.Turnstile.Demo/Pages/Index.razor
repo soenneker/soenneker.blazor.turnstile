@@ -1,0 +1,41 @@
+﻿@page "/"
+@using Microsoft.Extensions.Logging
+@using Soenneker.Blazor.Turnstile.Enums
+@using Soenneker.Blazor.Turnstile.Options
+@inject ILogger<Index> Logger
+
+<img src="https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png" />
+<h1>Soenneker.Blazor.Turnstile demo</h1>
+<p>This page demonstrates some of the uses of the Turnstile component.</p>
+
+<Turnstile @ref="_turnstile" OnCallback="OnCallback" Options="_options" ></Turnstile>
+
+<button @onclick="Reset" >Reset</button>
+<button @onclick="Remove" >Remove</button>
+
+<NavLink href="/second" >Navigate to second page</NavLink>
+
+@code{
+    private Turnstile? _turnstile { get; set; }
+    private readonly TurnstileOptions _options = new()
+    {
+        SiteKey = "1x00000000000000000000AA",
+        Theme = TurnstileTheme.Light
+    };
+
+    private void OnCallback(string token)
+    {
+        Logger.LogInformation("OnCallback fired, token: {token}", token);
+    }
+
+    private async Task Reset()
+    {
+        await _turnstile!.Reset();
+    }
+
+    private async Task Remove()
+    {
+        await _turnstile!.Remove();
+    }
+
+}
