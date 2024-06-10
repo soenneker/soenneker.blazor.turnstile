@@ -21,7 +21,7 @@ internal class TurnstileInterop : ITurnstileInterop
         CancellationToken cancellationToken = default)
     {
         string optionsJson = JsonUtil.Serialize(options)!;
-        string internalOptionsJson = JsonUtil.Serialize(options)!;
+        string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
 
         return await _jsRuntime.InvokeAsync<string>("turnstileinterop.create", cancellationToken, elementId, optionsJson, internalOptionsJson, dotnetObj);
     }

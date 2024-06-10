@@ -2,14 +2,14 @@
 
 namespace Soenneker.Blazor.Turnstile.Options;
 
-internal class InternalTurnstileOptions
+public class InternalTurnstileOptions
 {
     [JsonPropertyName("callbackEnabled")]
-    internal bool? CallbackEventEnabled { get; set; }
+    public bool? CallbackEventEnabled { get; set; }
 
     [JsonPropertyName("onErrorEnabled")]
-    internal bool? OnErrorEventEnabled { get; set; }
+    public bool? OnErrorEventEnabled { get; set; }
 
     [JsonPropertyName("onExpiredEnabled")]
-    internal bool? OnExpiredEventEnabled { get; set; }
+    public bool? OnExpiredEventEnabled { get; set; }
 }

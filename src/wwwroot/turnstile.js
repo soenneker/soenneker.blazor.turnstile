@@ -8,13 +8,13 @@ window.turnstileinterop = (function ()
         var element = document.querySelector("#" + elementId);
 
         if (internalOptions.callbackEnabled)
-            opt['callback'] = (token) => dotnetObj.invokeMethodAsync('Callback', token);
+            options['callback'] = (token) => dotnetObj.invokeMethodAsync('Callback', token);
 
         if (internalOptions.onErrorEnabled)
-            opt['error-callback'] = (message) => dotnetObj.invokeMethodAsync('ErrorCallback', message);
+            options['error-callback'] = (message) => dotnetObj.invokeMethodAsync('ErrorCallback', message);
 
         if (internalOptions.onExpiredEnabled)
-            opt['expired-callback'] = (message) => dotnetObj.invokeMethodAsync('ExpiredCallback', message);
+            options['expired-callback'] = (message) => dotnetObj.invokeMethodAsync('ExpiredCallback', message);
 
         return turnstile.render(element, options);
     };
