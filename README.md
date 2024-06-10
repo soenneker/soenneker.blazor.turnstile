@@ -32,13 +32,13 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-### 3. Add a script in the `<head>` in the `wwwroot/index.html` file
+### 3. Add this script at the bottom of the `<head>` element in the `wwwroot/index.html` file
 
 ```html
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
 ```
 
-### 4. Add a script at the bottom of your `<body>` in the `wwwroot/index.html` file
+### 4. Add this script at the bottom of the `<body>` element in the `wwwroot/index.html` file
 
 ```html
 <script src="_content/Soenneker.Blazor.Turnstile/turnstile.js"></script>
