@@ -16,14 +16,7 @@ Please refer to the [Cloudflare documentation](https://developers.cloudflare.com
 dotnet add package Soenneker.Blazor.Turnstile
 ```
 
-
-### 1. Add the following to your `_Imports.razor` file
-
-```razor
-@using Soenneker.Blazor.Turnstile
-```
-
-### 2. Add the following to your `Startup.cs` file
+### 1. Add the following to your `Startup.cs` file
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -32,21 +25,11 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-### 3. Add this script at the bottom of the `<head>` element in the `wwwroot/index.html` file
-
-```html
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer></script>
-```
-
-### 4. Add this script at the bottom of the `<body>` element in the `wwwroot/index.html` file
-
-```html
-<script src="_content/Soenneker.Blazor.Turnstile/turnstile.js"></script>
-```
-
 ## Usage
 
 ```razor
+@using Soenneker.Blazor.Turnstile
+
 <Turnstile @ref="_turnstile" OnCallback="OnCallback" Options="_options" ></Turnstile>
 
 @code{
