@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Soenneker.Blazor.Turnstile.Abstract;
+using Soenneker.Blazor.Utils.ModuleImport.Registrars;
 
 namespace Soenneker.Blazor.Turnstile.Registrars;
 
@@ -14,6 +15,7 @@ public static class TurnstileRegistrar
     /// </summary>
     public static void AddTurnstile(this IServiceCollection services)
     {
+        services.AddModuleImportUtil();
         services.TryAddScoped<ITurnstileInterop, TurnstileInterop>();
     }
 }

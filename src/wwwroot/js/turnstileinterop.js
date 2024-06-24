@@ -1,20 +1,13 @@
-export class TurnstileInterop 
+import '../../Soenneker.Blazor.Utils.ResourceLoader/js/resourceloader.js';
+
+export class TurnstileInterop
 {
     observer;
 
-    loadScript(url) {
-        return new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = url;
-            script.onload = () => resolve();
-            script.onerror = () => reject(new Error(`Failed to load script: ${url}`));
-            document.head.appendChild(script);
-        });
-    }
-
     async create(elementId, optionsJson, internalOptionsJson, dotnetObj)
     {
-        await this.loadScript('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit');
+        await ResourceLoader.loadScript('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit');
+        await ResourceLoader.waitForVariable("turnstile");
 
         var options = JSON.parse(optionsJson);
         var internalOptions = JSON.parse(internalOptionsJson);

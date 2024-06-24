@@ -4,7 +4,7 @@ using Soenneker.Blazor.Turnstile.Abstract;
 using System.Threading;
 using Soenneker.Blazor.Turnstile.Options;
 using Soenneker.Utils.Json;
-using System;
+using Soenneker.Blazor.Utils.ModuleImport.Abstract;
 
 namespace Soenneker.Blazor.Turnstile;
 
@@ -12,18 +12,19 @@ namespace Soenneker.Blazor.Turnstile;
 internal class TurnstileInterop : ITurnstileInterop
 {
     private readonly IJSRuntime _jsRuntime;
-    private IJSObjectReference? _scriptRef;
+    private readonly IModuleImportUtil _moduleImportUtil;
 
-    public TurnstileInterop(IJSRuntime jsRuntime)
+    public TurnstileInterop(IJSRuntime jsRuntime, IModuleImportUtil moduleImportUtil)
     {
         _jsRuntime = jsRuntime;
+        _moduleImportUtil = moduleImportUtil;
     }
 
     public async ValueTask<string> Create(DotNetObjectReference<Turnstile> dotnetObj, string elementId, TurnstileOptions options, InternalTurnstileOptions internalOptions,
         CancellationToken cancellationToken = default)
     {
-        _scriptRef = await _jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", cancellationToken, "./_content/Soenneker.Blazor.Turnstile/turnstileinterop.js");
+        await _moduleImportUtil.Import("Soenneker.Blazor.Turnstile/js/turnstileinterop.js", cancellationToken);
+        await _moduleImportUtil.WaitUntilLoaded("Soenneker.Blazor.Turnstile/js/turnstileinterop.js", cancellationToken);
 
         string optionsJson = JsonUtil.Serialize(options)!;
         string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
@@ -48,7 +49,6 @@ internal class TurnstileInterop : ITurnstileInterop
 
     public async ValueTask DisposeAsync()
     {
-        if (_scriptRef is not null)
-            await _scriptRef.DisposeAsync();
+        await _moduleImportUtil.DisposeModule("Soenneker.Blazor.Turnstile/js/turnstileinterop.js");
     }
 }
