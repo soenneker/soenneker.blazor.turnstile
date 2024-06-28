@@ -54,6 +54,11 @@
         _objRef = DotNetObjectReference.Create(this);
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        await TurnstileInterop.Initialize();
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)

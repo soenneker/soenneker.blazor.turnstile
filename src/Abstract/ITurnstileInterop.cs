@@ -8,6 +8,8 @@ namespace Soenneker.Blazor.Turnstile.Abstract;
 
 internal interface ITurnstileInterop : IAsyncDisposable
 {
+    ValueTask Initialize(CancellationToken cancellationToken = default);
+
     ValueTask<string> Create(DotNetObjectReference<Turnstile> dotnetObj, string elementId, TurnstileOptions options, InternalTurnstileOptions internalOptions,
         CancellationToken cancellationToken = default);
 

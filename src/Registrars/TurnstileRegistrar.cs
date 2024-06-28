@@ -16,6 +16,6 @@ public static class TurnstileRegistrar
     public static void AddTurnstile(this IServiceCollection services)
     {
         services.AddModuleImportUtil();
-        services.TryAddScoped<ITurnstileInterop, TurnstileInterop>();
+        services.TryAddSingleton<ITurnstileInterop, TurnstileInterop>();
     }
 }
