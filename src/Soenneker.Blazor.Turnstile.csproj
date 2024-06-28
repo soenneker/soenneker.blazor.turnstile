@@ -46,6 +46,6 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.6" />
         <PackageReference Include="Soenneker.Blazor.Utils.ModuleImport" Version="2.1.11" />
         <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="2.1.7" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="2.1.935" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="2.1.936" />
     </ItemGroup>
 </Project>
