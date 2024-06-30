@@ -1,14 +1,9 @@
-import '../Soenneker.Blazor.Utils.ResourceLoader/resourceloader.js';
-
 export class TurnstileInterop
 {
     observer;
 
     async create(elementId, optionsJson, internalOptionsJson, dotnetObj)
     {
-        await ResourceLoader.loadScript('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit');
-        await ResourceLoader.waitForVariable("turnstile");
-
         var options = JSON.parse(optionsJson);
         var internalOptions = JSON.parse(internalOptionsJson);
 
