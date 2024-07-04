@@ -23,12 +23,10 @@ internal class TurnstileInterop : ITurnstileInterop
         _jsRuntime = jsRuntime;
         _resourceLoader = resourceLoader;
 
-        _scriptInitializer = new AsyncSingleton<object>(async objects =>
+        _scriptInitializer = new AsyncSingleton<object>(async (token, _) =>
         {
-            var cancellationToken = (CancellationToken)objects[0];
-
-            await _resourceLoader.ImportModuleAndWaitUntilAvailable("Soenneker.Blazor.Turnstile/turnstileinterop.js", "TurnstileInterop", 100, cancellationToken).NoSync();
-            await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", null, cancellationToken).NoSync();
+            await _resourceLoader.ImportModuleAndWaitUntilAvailable("Soenneker.Blazor.Turnstile/turnstileinterop.js", "TurnstileInterop", 100, token).NoSync();
+            await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", null, token).NoSync();
             return new object();
         });
     }
