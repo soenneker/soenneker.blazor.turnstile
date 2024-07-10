@@ -26,7 +26,7 @@ internal class TurnstileInterop : ITurnstileInterop
         _scriptInitializer = new AsyncSingleton<object>(async (token, _) =>
         {
             await _resourceLoader.ImportModuleAndWaitUntilAvailable("Soenneker.Blazor.Turnstile/turnstileinterop.js", "TurnstileInterop", 100, token).NoSync();
-            await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", null, token).NoSync();
+            await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", cancellationToken: token).NoSync();
             return new object();
         });
     }
