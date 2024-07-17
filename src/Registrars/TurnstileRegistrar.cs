@@ -11,11 +11,11 @@ namespace Soenneker.Blazor.Turnstile.Registrars;
 public static class TurnstileRegistrar
 {
     /// <summary>
-    /// Adds <see cref="ITurnstile"/> as a singleton service. <para/>
+    /// Adds <see cref="ITurnstile"/> as a scoped service. <para/>
     /// </summary>
     public static void AddTurnstile(this IServiceCollection services)
     {
         services.AddResourceLoader();
-        services.TryAddSingleton<ITurnstileInterop, TurnstileInterop>();
+        services.TryAddScoped<ITurnstileInterop, TurnstileInterop>();
     }
 }
