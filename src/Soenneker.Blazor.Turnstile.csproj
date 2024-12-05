@@ -46,6 +46,6 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.0" />
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="3.0.112" />
         <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="3.0.648" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="3.0.1576" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="3.0.1584" />
     </ItemGroup>
 </Project>
