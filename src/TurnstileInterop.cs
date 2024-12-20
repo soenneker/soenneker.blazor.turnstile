@@ -11,7 +11,7 @@ using Soenneker.Blazor.Utils.ResourceLoader.Abstract;
 namespace Soenneker.Blazor.Turnstile;
 
 ///<inheritdoc cref="ITurnstileInterop"/>
-internal class TurnstileInterop : ITurnstileInterop
+public class TurnstileInterop : ITurnstileInterop
 {
     private readonly IJSRuntime _jsRuntime;
     private readonly IResourceLoader _resourceLoader;

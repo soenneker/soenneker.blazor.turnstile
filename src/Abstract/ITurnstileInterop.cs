@@ -6,7 +6,7 @@ using System;
 
 namespace Soenneker.Blazor.Turnstile.Abstract;
 
-internal interface ITurnstileInterop : IAsyncDisposable
+public interface ITurnstileInterop : IAsyncDisposable
 {
     ValueTask Initialize(CancellationToken cancellationToken = default);
 

@@ -13,9 +13,11 @@ public static class TurnstileRegistrar
     /// <summary>
     /// Adds <see cref="ITurnstile"/> as a scoped service. <para/>
     /// </summary>
-    public static void AddTurnstile(this IServiceCollection services)
+    public static IServiceCollection AddTurnstileInteropAsScoped(this IServiceCollection services)
     {
         services.AddResourceLoader();
         services.TryAddScoped<ITurnstileInterop, TurnstileInterop>();
+
+        return services;
     }
 }
