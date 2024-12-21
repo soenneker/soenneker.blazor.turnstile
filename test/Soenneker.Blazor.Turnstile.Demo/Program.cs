@@ -31,7 +31,7 @@ public class Program
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
 
-            builder.Services.AddTurnstile();
+            builder.Services.AddTurnstileInteropAsScoped();
 
             WebAssemblyHost host = builder.Build();
 
