@@ -21,7 +21,7 @@ dotnet add package Soenneker.Blazor.Turnstile
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddTurnstile();
+    services.AddTurnstileInteropAsScoped();
 }
 ```
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using System;
+using Microsoft.JSInterop;
 using System.Threading.Tasks;
 using Soenneker.Blazor.Turnstile.Abstract;
 using System.Threading;
@@ -16,35 +17,36 @@ public class TurnstileInterop : ITurnstileInterop
     private readonly IJSRuntime _jsRuntime;
     private readonly IResourceLoader _resourceLoader;
 
-    private readonly AsyncSingleton<object> _scriptInitializer;
+    private readonly AsyncSingleton _scriptInitializer;
 
     public TurnstileInterop(IJSRuntime jsRuntime, IResourceLoader resourceLoader)
     {
         _jsRuntime = jsRuntime;
         _resourceLoader = resourceLoader;
 
-        _scriptInitializer = new AsyncSingleton<object>(async (token, _) =>
+        _scriptInitializer = new AsyncSingleton(async (token, _) =>
         {
             await _resourceLoader.ImportModuleAndWaitUntilAvailable("Soenneker.Blazor.Turnstile/turnstileinterop.js", "TurnstileInterop", 100, token).NoSync();
             await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", cancellationToken: token).NoSync();
+
             return new object();
         });
     }
 
     public async ValueTask Initialize(CancellationToken cancellationToken = default)
     {
-        _ = await _scriptInitializer.Get(cancellationToken).NoSync();
+        await _scriptInitializer.Init(cancellationToken).NoSync();
     }
 
     public async ValueTask<string> Create(DotNetObjectReference<Turnstile> dotnetObj, string elementId, TurnstileOptions options, InternalTurnstileOptions internalOptions,
         CancellationToken cancellationToken = default)
     {
-        _ = await _scriptInitializer.Get(cancellationToken).NoSync();
+        await _scriptInitializer.Init(cancellationToken).NoSync();
 
         string optionsJson = JsonUtil.Serialize(options)!;
         string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
 
-        return await _jsRuntime.InvokeAsync<string>("TurnstileInterop.create", cancellationToken, elementId, optionsJson, internalOptionsJson, dotnetObj);
+        return await _jsRuntime.InvokeAsync<string>("TurnstileInterop.create", cancellationToken, elementId, optionsJson, internalOptionsJson, dotnetObj).NoSync();
     }
 
     public ValueTask CreateObserver(string elementId, string widgetId, CancellationToken cancellationToken = default)
@@ -64,6 +66,8 @@ public class TurnstileInterop : ITurnstileInterop
 
     public ValueTask DisposeAsync()
     {
+        GC.SuppressFinalize(this);
+
         return _resourceLoader.DisposeModule("Soenneker.Blazor.Turnstile/turnstileinterop.js");
     }
 }
