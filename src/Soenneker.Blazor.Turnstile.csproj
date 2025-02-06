@@ -45,7 +45,8 @@
         <PackageReference Include="Ardalis.SmartEnum.SystemTextJson" Version="8.1.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.1" />
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="3.0.288" />
-        <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="3.0.1100" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="3.0.2019" />
+        <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="3.0.1101" />
+        <PackageReference Include="Soenneker.Extensions.String" Version="3.0.412" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="3.0.2023" />
     </ItemGroup>
 </Project>
