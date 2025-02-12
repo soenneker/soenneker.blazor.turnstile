@@ -33,9 +33,9 @@ public class TurnstileInterop : ITurnstileInterop
         });
     }
 
-    public async ValueTask Initialize(CancellationToken cancellationToken = default)
+    public ValueTask Initialize(CancellationToken cancellationToken = default)
     {
-        await _scriptInitializer.Init(cancellationToken).NoSync();
+        return _scriptInitializer.Init(cancellationToken);
     }
 
     public async ValueTask<string> Create(DotNetObjectReference<Turnstile> dotnetObj, string elementId, TurnstileOptions options, InternalTurnstileOptions internalOptions,
