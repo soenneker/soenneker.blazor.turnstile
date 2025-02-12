@@ -64,10 +64,12 @@ public class TurnstileInterop : ITurnstileInterop
         return _jsRuntime.InvokeVoidAsync("turnstile.remove", cancellationToken, widgetId);
     }
 
-    public ValueTask DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         GC.SuppressFinalize(this);
 
-        return _resourceLoader.DisposeModule("Soenneker.Blazor.Turnstile/turnstileinterop.js");
+        await _resourceLoader.DisposeModule("Soenneker.Blazor.Turnstile/turnstileinterop.js").NoSync();
+
+        await _scriptInitializer.DisposeAsync().NoSync();
     }
 }
