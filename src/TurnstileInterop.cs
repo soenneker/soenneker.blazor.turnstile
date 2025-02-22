@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
 using System.Threading.Tasks;
 using Soenneker.Blazor.Turnstile.Abstract;
 using System.Threading;
@@ -66,8 +65,6 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     public async ValueTask DisposeAsync()
     {
-        GC.SuppressFinalize(this);
-
         await _resourceLoader.DisposeModule("Soenneker.Blazor.Turnstile/turnstileinterop.js").NoSync();
 
         await _scriptInitializer.DisposeAsync().NoSync();
