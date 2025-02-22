@@ -1,13 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 using Soenneker.Blazor.Turnstile.Enums;
-using Ardalis.SmartEnum.SystemTextJson;
 
 namespace Soenneker.Blazor.Turnstile.Options;
 
 /// <summary>
 /// Represents the configuration options for the Turnstile widget.
 /// </summary>
-public class TurnstileOptions
+public sealed class TurnstileOptions
 {
     /// <summary>
     /// The site key associated with the widget configuration, created during widget creation.
@@ -46,42 +45,36 @@ public class TurnstileOptions
     /// The appearance setting for the widget.
     /// </summary>
     [JsonPropertyName("appearance")]
-    [JsonConverter(typeof(SmartEnumNameConverter<TurnstileAppearance, int>))]
     public TurnstileAppearance? Appearance { get; set; } = TurnstileAppearance.Always;
 
     /// <summary>
     /// The theme setting for the widget.
     /// </summary>
     [JsonPropertyName("theme")]
-    [JsonConverter(typeof(SmartEnumNameConverter<TurnstileTheme, int>))]
     public TurnstileTheme? Theme { get; set; } = TurnstileTheme.Auto;
 
     /// <summary>
     /// The size setting for the widget.
     /// </summary>
     [JsonPropertyName("size")]
-    [JsonConverter(typeof(SmartEnumNameConverter<TurnstileSize, int>))]
     public TurnstileSize? Size { get; set; } = TurnstileSize.Normal;
 
     /// <summary>
     /// The execution mode for the widget.
     /// </summary>
     [JsonPropertyName("execution")]
-    [JsonConverter(typeof(SmartEnumNameConverter<TurnstileExecution, int>))]
     public TurnstileExecution? Execution { get; set; } = TurnstileExecution.Render;
 
     /// <summary>
     /// The retry policy for the widget.
     /// </summary>
     [JsonPropertyName("retry")]
-    [JsonConverter(typeof(SmartEnumNameConverter<TurnstileRetry, int>))]
     public TurnstileRetry? Retry { get; set; } = TurnstileRetry.Auto;
 
     /// <summary>
     /// The refresh policy for expired tokens.
     /// </summary>
     [JsonPropertyName("refresh-expired")]
-    [JsonConverter(typeof(SmartEnumNameConverter<TurnstileRefreshExpired, int>))]
     public TurnstileRefreshExpired? RefreshExpired { get; set; } = TurnstileRefreshExpired.Auto;
 
     /// <summary>

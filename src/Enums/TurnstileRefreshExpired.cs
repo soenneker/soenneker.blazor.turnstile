@@ -1,29 +1,25 @@
-﻿using Ardalis.SmartEnum;
-using Soenneker.Extensions.String;
+﻿using Intellenum;
 
 namespace Soenneker.Blazor.Turnstile.Enums;
 
 /// <summary>
 /// Represents the options for automatically refreshing the token when it expires.
 /// </summary>
-public sealed class TurnstileRefreshExpired : SmartEnum<TurnstileRefreshExpired>
+[Intellenum<string>]
+public partial class TurnstileRefreshExpired
 {
     /// <summary>
     /// Automatically refreshes the token when it expires.
     /// </summary>
-    public static readonly TurnstileRefreshExpired Auto = new(nameof(Auto).ToLowerInvariantFast(), 0);
+    public static readonly TurnstileRefreshExpired Auto = new("auto");
 
     /// <summary>
     /// Requires manual intervention to refresh the token when it expires.
     /// </summary>
-    public static readonly TurnstileRefreshExpired Manual = new(nameof(Manual).ToLowerInvariantFast(), 1);
+    public static readonly TurnstileRefreshExpired Manual = new("manual");
 
     /// <summary>
     /// Never refreshes the token when it expires.
     /// </summary>
-    public static readonly TurnstileRefreshExpired Never = new(nameof(Never).ToLowerInvariantFast(), 2);
-
-    private TurnstileRefreshExpired(string name, int value) : base(name, value)
-    {
-    }
+    public static readonly TurnstileRefreshExpired Never = new("never");
 }

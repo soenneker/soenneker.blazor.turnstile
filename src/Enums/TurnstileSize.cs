@@ -1,5 +1,4 @@
-﻿using Ardalis.SmartEnum;
-using Soenneker.Extensions.String;
+﻿using Intellenum;
 
 namespace Soenneker.Blazor.Turnstile.Enums;
 
@@ -10,19 +9,16 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// Normal  300px   65px
 /// Compact 130px   120px
 /// </summary>
-public sealed class TurnstileSize : SmartEnum<TurnstileSize>
+[Intellenum<string>]
+public partial class TurnstileSize
 {
     /// <summary>
     /// Normal size: Width 300px, Height 65px.
     /// </summary>
-    public static readonly TurnstileSize Normal = new(nameof(Normal).ToLowerInvariantFast(), 0);
+    public static readonly TurnstileSize Normal = new("normal");
 
     /// <summary>
     /// Compact size: Width 130px, Height 120px.
     /// </summary>
-    public static readonly TurnstileSize Compact = new(nameof(Compact).ToLowerInvariantFast(), 1);
-
-    private TurnstileSize(string name, int value) : base(name, value)
-    {
-    }
+    public static readonly TurnstileSize Compact = new("compact");
 }
