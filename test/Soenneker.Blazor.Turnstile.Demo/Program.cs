@@ -1,6 +1,3 @@
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,8 +5,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using Serilog;
 using Serilog.Debugging;
-using Serilog.Events;
 using Soenneker.Blazor.Turnstile.Registrars;
+using Soenneker.Serilog.Sinks.Browser.Blazor.Registrars;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Soenneker.Blazor.Turnstile.Demo;
 
@@ -35,7 +35,7 @@ public class Program
 
             WebAssemblyHost host = builder.Build();
 
-            var jsRuntime = (IJSRuntime)host.Services.GetService(typeof(IJSRuntime))!;
+            var jsRuntime = (IJSRuntime) host.Services.GetService(typeof(IJSRuntime))!;
 
             SetGlobalLogger(jsRuntime);
 
@@ -66,14 +66,9 @@ public class Program
 
     private static void SetGlobalLogger(IJSRuntime jsRuntime)
     {
-        var logEventLevel = LogEventLevel.Verbose;
-
         var loggerConfig = new LoggerConfiguration();
-        loggerConfig.MinimumLevel.Is(logEventLevel);
 
-        loggerConfig.Enrich.FromLogContext();
-
-        loggerConfig.WriteTo.BrowserConsole(jsRuntime: jsRuntime, restrictedToMinimumLevel: logEventLevel);
+        loggerConfig.WriteTo.BlazorConsole(jsRuntime: jsRuntime);
 
         Log.Logger = loggerConfig.CreateLogger();
     }

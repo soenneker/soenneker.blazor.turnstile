@@ -8,18 +8,22 @@
 @using Soenneker.Extensions.ValueTask;
 
 @implements ITurnstile
-@inject ITurnstileInterop TurnstileInterop;
-@inject ILogger<Turnstile> Logger;
+@inject ITurnstileInterop TurnstileInterop
+@inject ILogger<Turnstile> Logger
 
-<div id="@_elementId" class="cf-turnstile"></div>
+<div id="@_elementId" class="cf-turnstile" @attributes="Attributes" ></div>
 
 @code {
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?>? Attributes { get; set; }
+
     private DotNetObjectReference<Turnstile>? _objRef;
-    private CancellationTokenSource? _cTs;
-    private string _elementId;
+    private readonly CancellationTokenSource _cTs = new();
+    private readonly string _elementId;
 
     private bool _shouldRender = true;
-    private bool _isCreated = false;
+    private bool _isCreated;
 
     [Parameter]
     public TurnstileOptions? Options { get; set; }
@@ -45,43 +49,45 @@
 
     public Turnstile()
     {
-        _elementId = $"_{Guid.NewGuid()}";
-        _cTs = new CancellationTokenSource();
+        _elementId = $"turnstile-{Guid.NewGuid()}";
     }
 
     protected override bool ShouldRender() => _shouldRender;
 
     protected override void OnInitialized() => _objRef = DotNetObjectReference.Create(this);
 
-    protected override async Task OnInitializedAsync() => await InitializeTurnstileInterop();
+    protected override async Task OnInitializedAsync()
+    {
+        await InitializeTurnstileInterop(_cTs.Token).NoSync();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && !_isCreated)
         {
-            await CreateWidgetAsync();
+            await CreateWidget(_cTs.Token).NoSync();
         }
     }
 
-    private async Task InitializeTurnstileInterop()
+    private async Task InitializeTurnstileInterop(CancellationToken cancellationToken)
     {
         if (!_isCreated)
         {
-            await TurnstileInterop.Initialize().NoSync();
+            await TurnstileInterop.Initialize(cancellationToken).NoSync();
         }
     }
 
-    private async Task CreateWidgetAsync()
+    private async ValueTask CreateWidget(CancellationToken cancellationToken)
     {
         try
         {
             if (Options?.ManualCreate == true)
                 return;
 
-            WidgetId = await Create().NoSync();
+            WidgetId = await Create(cancellationToken: cancellationToken).NoSync();
 
             if (WidgetId != null)
-                await TurnstileInterop.CreateObserver(_elementId, WidgetId).NoSync();
+                await TurnstileInterop.CreateObserver(_elementId, WidgetId, cancellationToken).NoSync();
 
             _shouldRender = false;
             _isCreated = true;
@@ -92,21 +98,8 @@
         }
     }
 
-    private void ResetCancellationTokenSource()
-    {
-        if (_cTs != null)
-        {
-            _cTs.Cancel();
-            _cTs.Dispose();
-        }
-        
-        _cTs = new CancellationTokenSource();
-    }
-
     public async ValueTask<string?> Create(TurnstileOptions? options = null, CancellationToken cancellationToken = default)
     {
-        ResetCancellationTokenSource();
-
         Logger.LogDebug("Initializing Cloudflare Turnstile...");
 
         if (_initialized)
@@ -128,11 +121,11 @@
         }
 
         var internalOptions = new InternalTurnstileOptions
-            {
-                CallbackEventEnabled = OnCallback.HasDelegate,
-                OnErrorEventEnabled = OnErrorCallback.HasDelegate,
-                OnExpiredEventEnabled = OnExpiredCallback.HasDelegate
-            };
+        {
+            CallbackEventEnabled = OnCallback.HasDelegate,
+            OnErrorEventEnabled = OnErrorCallback.HasDelegate,
+            OnExpiredEventEnabled = OnExpiredCallback.HasDelegate
+        };
 
         using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cTs!.Token);
         return await TurnstileInterop.Create(_objRef!, _elementId, Options, internalOptions, linkedCts.Token).NoSync();
@@ -199,7 +192,7 @@
         GC.SuppressFinalize(this);
         WidgetId = null;
 
-        if (_cTs is { IsCancellationRequested: false })
+        if (_cTs is {IsCancellationRequested: false})
         {
             await _cTs.CancelAsync().NoSync();
             _cTs.Dispose();
@@ -210,4 +203,5 @@
 
         _objRef?.Dispose();
     }
+
 }
