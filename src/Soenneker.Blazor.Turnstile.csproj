@@ -47,6 +47,6 @@
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="3.0.403" />
         <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="3.0.1417" />
         <PackageReference Include="Soenneker.Extensions.String" Version="3.0.482" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="3.0.2293" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="3.0.2294" />
     </ItemGroup>
 </Project>
