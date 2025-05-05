@@ -1,4 +1,4 @@
-# Contributing to Soenneker.Blazor.Turnstile
+﻿# Contributing to Soenneker.Blazor.Turnstile
 
 We're excited that you're interested in contributing!
 
