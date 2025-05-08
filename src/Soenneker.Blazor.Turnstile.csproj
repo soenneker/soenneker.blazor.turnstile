@@ -45,7 +45,7 @@
         <PackageReference Include="Intellenum" Version="1.0.6" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.4" />
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="3.0.412" />
-        <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="3.0.1447" />
+        <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="3.0.1448" />
         <PackageReference Include="Soenneker.Extensions.String" Version="3.0.505" />
         <PackageReference Include="Soenneker.Utils.Json" Version="3.0.2319" />
     </ItemGroup>
