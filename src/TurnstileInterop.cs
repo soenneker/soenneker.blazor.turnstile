@@ -70,8 +70,6 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     public async ValueTask DisposeAsync()
     {
-        GC.SuppressFinalize(this);
-
         await _resourceLoader.DisposeModule(_module).NoSync();
 
         await _scriptInitializer.DisposeAsync().NoSync();
