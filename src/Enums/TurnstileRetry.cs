@@ -6,7 +6,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// Represents the retry options for Turnstile.
 /// </summary>
 [Intellenum<string>]
-public partial class TurnstileRetry
+public sealed partial class TurnstileRetry
 {
     /// <summary>
     /// Represents the automatic retry option.

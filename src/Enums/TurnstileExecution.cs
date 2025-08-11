@@ -17,7 +17,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 ///    This detaches the appearance and rendering of a widget from its execution.
 /// </summary>
 [Intellenum<string>]
-public partial class TurnstileExecution
+public sealed partial class TurnstileExecution
 {
     /// <summary>
     /// The challenge runs automatically after calling the Render() function.

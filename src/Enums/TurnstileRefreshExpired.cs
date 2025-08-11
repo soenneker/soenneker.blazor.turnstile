@@ -6,7 +6,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// Represents the options for automatically refreshing the token when it expires.
 /// </summary>
 [Intellenum<string>]
-public partial class TurnstileRefreshExpired
+public sealed partial class TurnstileRefreshExpired
 {
     /// <summary>
     /// Automatically refreshes the token when it expires.

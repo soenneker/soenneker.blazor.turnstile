@@ -10,7 +10,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// Compact 130px   120px
 /// </summary>
 [Intellenum<string>]
-public partial class TurnstileSize
+public sealed partial class TurnstileSize
 {
     /// <summary>
     /// Normal size: Width 300px, Height 65px.

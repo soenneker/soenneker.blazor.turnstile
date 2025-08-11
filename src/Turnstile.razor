@@ -6,7 +6,9 @@
 @using Soenneker.Blazor.Turnstile.Options;
 @using Soenneker.Extensions.Task;
 @using Soenneker.Extensions.ValueTask;
+@using Soenneker.Extensions.CancellationTokens;
 
+@inherits Soenneker.Quark.Components.Cancellable.CancellableComponent
 @implements ITurnstile
 @inject ITurnstileInterop TurnstileInterop
 @inject ILogger<Turnstile> Logger
@@ -19,7 +21,6 @@
     public Dictionary<string, object?>? Attributes { get; set; }
 
     private DotNetObjectReference<Turnstile>? _objRef;
-    private readonly CancellationTokenSource _cTs = new();
     private readonly string _elementId;
 
     private bool _shouldRender = true;
@@ -56,16 +57,16 @@
 
     protected override void OnInitialized() => _objRef = DotNetObjectReference.Create(this);
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
-        await InitializeTurnstileInterop(_cTs.Token).NoSync();
+        return InitializeTurnstileInterop(CancellationToken);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && !_isCreated)
         {
-            await CreateWidget(_cTs.Token).NoSync();
+            await CreateWidget(CancellationToken).NoSync();
         }
     }
 
@@ -127,8 +128,10 @@
             OnExpiredEventEnabled = OnExpiredCallback.HasDelegate
         };
 
-        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cTs!.Token);
-        return await TurnstileInterop.Create(_objRef!, _elementId, Options, internalOptions, linkedCts.Token).NoSync();
+        CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
+
+        using (cts)
+            return await TurnstileInterop.Create(_objRef!, _elementId, Options, internalOptions, linked).NoSync();
     }
 
     public async ValueTask Reset(CancellationToken cancellationToken = default)
@@ -139,8 +142,10 @@
             return;
         }
 
-        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cTs!.Token);
-        await TurnstileInterop.Reset(WidgetId, linkedCts.Token).NoSync();
+        CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
+
+        using (cts)
+            await TurnstileInterop.Reset(WidgetId, linked).NoSync();
     }
 
     public async ValueTask Remove(CancellationToken cancellationToken = default)
@@ -151,16 +156,18 @@
             return;
         }
 
-        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _cTs!.Token);
-        await TurnstileInterop.Remove(WidgetId, linkedCts.Token).NoSync();
+        CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
+
+        using (cts)
+            await TurnstileInterop.Remove(WidgetId, linked).NoSync();
     }
 
 
     [JSInvokable]
-    public async Task Callback(string token)
+    public Task Callback(string token)
     {
         Token = token;
-        await NotifyTokenChangedAsync(token).NoSync();
+        return NotifyTokenChangedAsync(token);
     }
 
     [JSInvokable]
@@ -187,16 +194,11 @@
         await OnCallback.InvokeIfHasDelegate(token).NoSync();
     }
 
-    public async ValueTask DisposeAsync()
+    public override async ValueTask DisposeAsync()
     {
-        GC.SuppressFinalize(this);
-        WidgetId = null;
+        await base.DisposeAsync().NoSync();
 
-        if (_cTs is {IsCancellationRequested: false})
-        {
-            await _cTs.CancelAsync().NoSync();
-            _cTs.Dispose();
-        }
+        WidgetId = null;
 
         _initialized = false;
         _isCreated = false;

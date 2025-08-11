@@ -6,7 +6,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// Represents the theme options for Turnstile.
 /// </summary>
 [Intellenum<string>]
-public partial class TurnstileTheme
+public sealed partial class TurnstileTheme
 {
     /// <summary>
     /// Represents the Light theme.

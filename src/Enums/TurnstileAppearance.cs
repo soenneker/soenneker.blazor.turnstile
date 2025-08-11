@@ -11,7 +11,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// cases where an interaction is required.
 /// </summary>
 [Intellenum<string>]
-public partial class TurnstileAppearance
+public sealed partial class TurnstileAppearance
 {
     /// <summary>
     /// The widget is always visible.
