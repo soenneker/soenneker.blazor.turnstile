@@ -45,10 +45,10 @@
         <PackageReference Include="Intellenum" Version="1.0.6" />
         <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.8" />
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="3.0.420" />
-        <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="3.0.1487" />
-        <PackageReference Include="Soenneker.Extensions.String" Version="3.0.542" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="3.0.2343" />
+        <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="3.0.1489" />
+        <PackageReference Include="Soenneker.Extensions.String" Version="3.0.548" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="3.0.2344" />
         <PackageReference Include="Soenneker.Extensions.CancellationTokens" Version="3.0.1" />
-        <PackageReference Include="Soenneker.Quark.Components.Cancellable" Version="3.0.1" />
+        <PackageReference Include="Soenneker.Quark.Components.Cancellable" Version="3.0.2" />
     </ItemGroup>
 </Project>
