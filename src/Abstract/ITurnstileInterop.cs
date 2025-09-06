@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using System.Threading;
 using System.Threading.Tasks;
 using Soenneker.Blazor.Turnstile.Options;

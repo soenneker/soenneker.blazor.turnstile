@@ -66,7 +66,7 @@
     {
         if (firstRender && !_isCreated)
         {
-            await CreateWidget(CancellationToken).NoSync();
+            await CreateWidget(CancellationToken);
         }
     }
 
@@ -74,7 +74,7 @@
     {
         if (!_isCreated)
         {
-            await TurnstileInterop.Initialize(cancellationToken).NoSync();
+            await TurnstileInterop.Initialize(cancellationToken);
         }
     }
 
@@ -85,10 +85,10 @@
             if (Options?.ManualCreate == true)
                 return;
 
-            WidgetId = await Create(cancellationToken: cancellationToken).NoSync();
+            WidgetId = await Create(cancellationToken: cancellationToken);
 
             if (WidgetId != null)
-                await TurnstileInterop.CreateObserver(_elementId, WidgetId, cancellationToken).NoSync();
+                await TurnstileInterop.CreateObserver(_elementId, WidgetId, cancellationToken);
 
             _shouldRender = false;
             _isCreated = true;
@@ -131,7 +131,7 @@
         CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
 
         using (cts)
-            return await TurnstileInterop.Create(_objRef!, _elementId, Options, internalOptions, linked).NoSync();
+            return await TurnstileInterop.Create(_objRef!, _elementId, Options, internalOptions, linked);
     }
 
     public async ValueTask Reset(CancellationToken cancellationToken = default)
@@ -145,7 +145,7 @@
         CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
 
         using (cts)
-            await TurnstileInterop.Reset(WidgetId, linked).NoSync();
+            await TurnstileInterop.Reset(WidgetId, linked);
     }
 
     public async ValueTask Remove(CancellationToken cancellationToken = default)
@@ -159,7 +159,7 @@
         CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
 
         using (cts)
-            await TurnstileInterop.Remove(WidgetId, linked).NoSync();
+            await TurnstileInterop.Remove(WidgetId, linked);
     }
 
 
@@ -175,8 +175,8 @@
     {
         Logger.LogError("Turnstile error: {Message}", message);
         Token = null;
-        await NotifyTokenChangedAsync(Token).NoSync();
-        await OnErrorCallback.InvokeIfHasDelegate(message).NoSync();
+        await NotifyTokenChangedAsync(Token);
+        await OnErrorCallback.InvokeIfHasDelegate(message);
     }
 
     [JSInvokable]
@@ -184,19 +184,19 @@
     {
         Logger.LogError("Turnstile token has expired");
         Token = null;
-        await NotifyTokenChangedAsync(Token).NoSync();
-        await OnExpiredCallback.InvokeIfHasDelegate(message).NoSync();
+        await NotifyTokenChangedAsync(Token);
+        await OnExpiredCallback.InvokeIfHasDelegate(message);
     }
 
     private async Task NotifyTokenChangedAsync(string? token)
     {
-        await TokenChanged.InvokeIfHasDelegate(token).NoSync();
-        await OnCallback.InvokeIfHasDelegate(token).NoSync();
+        await TokenChanged.InvokeIfHasDelegate(token);
+        await OnCallback.InvokeIfHasDelegate(token);
     }
 
     public override async ValueTask DisposeAsync()
     {
-        await base.DisposeAsync().NoSync();
+        await base.DisposeAsync();
 
         WidgetId = null;
 

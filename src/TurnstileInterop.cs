@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
 using Soenneker.Blazor.Turnstile.Abstract;
@@ -29,9 +29,9 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         _scriptInitializer = new AsyncSingleton(async (token, _) =>
         {
-            await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", cancellationToken: token).NoSync();
+            await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", cancellationToken: token);
 
-            await _resourceLoader.ImportModuleAndWaitUntilAvailable(_module, _moduleName, 100, token).NoSync();
+            await _resourceLoader.ImportModuleAndWaitUntilAvailable(_module, _moduleName, 100, token);
 
             return new object();
         });
@@ -45,12 +45,12 @@ public sealed class TurnstileInterop : ITurnstileInterop
     public async ValueTask<string> Create(DotNetObjectReference<Turnstile> dotnetObj, string elementId, TurnstileOptions options, InternalTurnstileOptions internalOptions,
         CancellationToken cancellationToken = default)
     {
-        await _scriptInitializer.Init(cancellationToken).NoSync();
+        await _scriptInitializer.Init(cancellationToken);
 
         string optionsJson = JsonUtil.Serialize(options)!;
         string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
 
-        return await _jsRuntime.InvokeAsync<string>($"{_moduleName}.create", cancellationToken, elementId, optionsJson, internalOptionsJson, dotnetObj).NoSync();
+        return await _jsRuntime.InvokeAsync<string>($"{_moduleName}.create", cancellationToken, elementId, optionsJson, internalOptionsJson, dotnetObj);
     }
 
     public ValueTask CreateObserver(string elementId, string widgetId, CancellationToken cancellationToken = default)
@@ -70,8 +70,8 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     public async ValueTask DisposeAsync()
     {
-        await _resourceLoader.DisposeModule(_module).NoSync();
+        await _resourceLoader.DisposeModule(_module);
 
-        await _scriptInitializer.DisposeAsync().NoSync();
+        await _scriptInitializer.DisposeAsync();
     }
 }

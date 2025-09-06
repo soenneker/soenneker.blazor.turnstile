@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+using System.Text.Json.Serialization;
 using Soenneker.Blazor.Turnstile.Enums;
 
 namespace Soenneker.Blazor.Turnstile.Options;
