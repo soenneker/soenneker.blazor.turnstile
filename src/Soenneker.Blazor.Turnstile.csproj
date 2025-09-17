@@ -46,6 +46,6 @@
         <PackageReference Include="Soenneker.Quark.Divs" Version="3.0.10" />
         <PackageReference Include="Soenneker.Utils.Json" Version="3.0.2355" />
         <PackageReference Include="Soenneker.Extensions.CancellationTokens" Version="3.0.3" />
-        <PackageReference Include="Soenneker.Quark.Components.Cancellable" Version="3.0.20" />
+        <PackageReference Include="Soenneker.Quark.Components.Cancellable" Version="3.0.21" />
     </ItemGroup>
 </Project>
