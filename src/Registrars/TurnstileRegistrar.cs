@@ -15,7 +15,8 @@ public static class TurnstileRegistrar
     /// </summary>
     public static IServiceCollection AddTurnstileInteropAsScoped(this IServiceCollection services)
     {
-        services.AddResourceLoaderAsScoped().TryAddScoped<ITurnstileInterop, TurnstileInterop>();
+        services.AddResourceLoaderAsScoped()
+            .TryAddScoped<ITurnstileInterop, TurnstileInterop>();
 
         return services;
     }

@@ -1,4 +1,3 @@
-using System;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
 using Soenneker.Blazor.Turnstile.Abstract;
@@ -6,7 +5,6 @@ using System.Threading;
 using Soenneker.Blazor.Turnstile.Options;
 using Soenneker.Utils.Json;
 using Soenneker.Utils.AsyncSingleton;
-using Soenneker.Extensions.ValueTask;
 using Soenneker.Blazor.Utils.ResourceLoader.Abstract;
 
 namespace Soenneker.Blazor.Turnstile;

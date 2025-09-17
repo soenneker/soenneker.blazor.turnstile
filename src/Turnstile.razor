@@ -1,25 +1,20 @@
-@using System.Threading;
-@using Soenneker.Blazor.Turnstile.Abstract;
-@using Microsoft.Extensions.Logging;
-@using Microsoft.JSInterop;
-@using Soenneker.Blazor.Extensions.EventCallback;
-@using Soenneker.Blazor.Turnstile.Options;
-@using Soenneker.Extensions.Task;
-@using Soenneker.Extensions.ValueTask;
-@using Soenneker.Extensions.CancellationTokens;
+@using System.Threading
+@using Soenneker.Blazor.Turnstile.Abstract
+@using Microsoft.Extensions.Logging
+@using Microsoft.JSInterop
+@using Soenneker.Blazor.Extensions.EventCallback
+@using Soenneker.Blazor.Turnstile.Options
+@using Soenneker.Extensions.CancellationTokens
+@using Soenneker.Quark.Divs
 
 @inherits Soenneker.Quark.Components.Cancellable.CancellableComponent
 @implements ITurnstile
 @inject ITurnstileInterop TurnstileInterop
 @inject ILogger<Turnstile> Logger
 
-<div id="@_elementId" class="cf-turnstile" @attributes="Attributes" ></div>
+<Div Id="@_elementId" Class="cf-turnstile" @attributes="Attributes" ></Div>
 
 @code {
-
-    [Parameter(CaptureUnmatchedValues = true)]
-    public Dictionary<string, object?>? Attributes { get; set; }
-
     private DotNetObjectReference<Turnstile>? _objRef;
     private readonly string _elementId;
 
