@@ -5,18 +5,17 @@
 @using Soenneker.Blazor.Extensions.EventCallback
 @using Soenneker.Blazor.Turnstile.Options
 @using Soenneker.Extensions.CancellationTokens
-@using Soenneker.Quark.Divs
 
-@inherits Soenneker.Quark.Components.Cancellable.CancellableComponent
+@inherits Soenneker.Quark.Components.Core.Cancellable.CoreCancellableComponent
+
 @implements ITurnstile
 @inject ITurnstileInterop TurnstileInterop
 @inject ILogger<Turnstile> Logger
 
-<Div Id="@_elementId" Class="cf-turnstile" @attributes="Attributes" ></Div>
+<div id="@Id" class="cf-turnstile" @attributes="Attributes" ></div>
 
 @code {
     private DotNetObjectReference<Turnstile>? _objRef;
-    private readonly string _elementId;
 
     private bool _shouldRender = true;
     private bool _isCreated;
@@ -45,7 +44,7 @@
 
     public Turnstile()
     {
-        _elementId = $"turnstile-{Guid.NewGuid()}";
+        Id = $"turnstile-{Guid.NewGuid()}";
     }
 
     protected override bool ShouldRender() => _shouldRender;
@@ -83,7 +82,7 @@
             WidgetId = await Create(cancellationToken: cancellationToken);
 
             if (WidgetId != null)
-                await TurnstileInterop.CreateObserver(_elementId, WidgetId, cancellationToken);
+                await TurnstileInterop.CreateObserver(Id, WidgetId, cancellationToken);
 
             _shouldRender = false;
             _isCreated = true;
@@ -126,7 +125,7 @@
         CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
 
         using (cts)
-            return await TurnstileInterop.Create(_objRef!, _elementId, Options, internalOptions, linked);
+            return await TurnstileInterop.Create(_objRef!, Id!, Options, internalOptions, linked);
     }
 
     public async ValueTask Reset(CancellationToken cancellationToken = default)
