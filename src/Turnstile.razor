@@ -41,6 +41,7 @@
     public string? WidgetId { get; private set; }
     public string? Token { get; private set; }
     private bool _initialized;
+    private bool _interopInitialized;
 
     public Turnstile()
     {
@@ -51,25 +52,23 @@
 
     protected override void OnInitialized() => _objRef = DotNetObjectReference.Create(this);
 
-    protected override Task OnInitializedAsync()
-    {
-        return InitializeTurnstileInterop(CancellationToken);
-    }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && !_isCreated)
-        {
-            await CreateWidget(CancellationToken);
-        }
-    }
+        await base.OnAfterRenderAsync(firstRender);
 
-    private async Task InitializeTurnstileInterop(CancellationToken cancellationToken)
-    {
-        if (!_isCreated)
+        if (!firstRender && _isCreated)
+            return;
+
+        if (!_interopInitialized)
         {
-            await TurnstileInterop.Initialize(cancellationToken);
+            await TurnstileInterop.Initialize(CancellationToken);
+            _interopInitialized = true;
         }
+
+        if (_isCreated || Options is { ManualCreate: true })
+            return;
+
+        await CreateWidget(CancellationToken);
     }
 
     private async ValueTask CreateWidget(CancellationToken cancellationToken)
@@ -96,6 +95,9 @@
     public async ValueTask<string?> Create(TurnstileOptions? options = null, CancellationToken cancellationToken = default)
     {
         Logger.LogDebug("Initializing Cloudflare Turnstile...");
+
+        if (!_interopInitialized)
+            throw new InvalidOperationException("Turnstile interop is not yet available. Wait until the component has rendered.");
 
         if (_initialized)
         {
@@ -136,10 +138,20 @@
             return;
         }
 
-        CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
+        CancellationToken token = cancellationToken;
+        CancellationTokenSource? cts = null;
 
-        using (cts)
-            await TurnstileInterop.Reset(WidgetId, linked);
+        if (!token.CanBeCanceled)
+            token = CancellationToken.Link(CancellationToken, out cts);
+
+        try
+        {
+            await TurnstileInterop.Reset(WidgetId, token);
+        }
+        finally
+        {
+            cts?.Dispose();
+        }
     }
 
     public async ValueTask Remove(CancellationToken cancellationToken = default)
@@ -150,10 +162,20 @@
             return;
         }
 
-        CancellationToken linked = CancellationToken.Link(cancellationToken, out CancellationTokenSource? cts);
+        CancellationToken token = cancellationToken;
+        CancellationTokenSource? cts = null;
 
-        using (cts)
-            await TurnstileInterop.Remove(WidgetId, linked);
+        if (!token.CanBeCanceled)
+            token = CancellationToken.Link(CancellationToken, out cts);
+
+        try
+        {
+            await TurnstileInterop.Remove(WidgetId, token);
+        }
+        finally
+        {
+            cts?.Dispose();
+        }
     }
 
 
@@ -196,6 +218,7 @@
 
         _initialized = false;
         _isCreated = false;
+        _interopInitialized = false;
 
         _objRef?.Dispose();
     }
