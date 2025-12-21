@@ -4,7 +4,7 @@ using Soenneker.Blazor.Turnstile.Abstract;
 using System.Threading;
 using Soenneker.Blazor.Turnstile.Options;
 using Soenneker.Utils.Json;
-using Soenneker.Utils.AsyncSingleton;
+using Soenneker.Asyncs.Initializers;
 using Soenneker.Blazor.Utils.ResourceLoader.Abstract;
 
 namespace Soenneker.Blazor.Turnstile;
@@ -15,7 +15,7 @@ public sealed class TurnstileInterop : ITurnstileInterop
     private readonly IJSRuntime _jsRuntime;
     private readonly IResourceLoader _resourceLoader;
 
-    private readonly AsyncSingleton _scriptInitializer;
+    private readonly AsyncInitializer _scriptInitializer;
 
     private const string _module = "Soenneker.Blazor.Turnstile/js/turnstileinterop.js";
     private const string _moduleName = "TurnstileInterop";
@@ -25,13 +25,11 @@ public sealed class TurnstileInterop : ITurnstileInterop
         _jsRuntime = jsRuntime;
         _resourceLoader = resourceLoader;
 
-        _scriptInitializer = new AsyncSingleton(async (token, _) =>
+        _scriptInitializer = new AsyncInitializer(async token =>
         {
             await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", cancellationToken: token);
 
             await _resourceLoader.ImportModuleAndWaitUntilAvailable(_module, _moduleName, 100, token);
-
-            return new object();
         });
     }
 
