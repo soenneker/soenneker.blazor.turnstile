@@ -24,13 +24,14 @@ public sealed class TurnstileInterop : ITurnstileInterop
     {
         _jsRuntime = jsRuntime;
         _resourceLoader = resourceLoader;
+        _scriptInitializer = new AsyncInitializer(InitializeScript);
+    }
 
-        _scriptInitializer = new AsyncInitializer(async token =>
-        {
-            await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", cancellationToken: token);
+    private async ValueTask InitializeScript(CancellationToken token)
+    {
+        await _resourceLoader.LoadScriptAndWaitForVariable("https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", "turnstile", cancellationToken: token);
 
-            await _resourceLoader.ImportModuleAndWaitUntilAvailable(_module, _moduleName, 100, token);
-        });
+        await _resourceLoader.ImportModuleAndWaitUntilAvailable(_module, _moduleName, 100, token);
     }
 
     public ValueTask Initialize(CancellationToken cancellationToken = default)
@@ -46,12 +47,12 @@ public sealed class TurnstileInterop : ITurnstileInterop
         string optionsJson = JsonUtil.Serialize(options)!;
         string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
 
-        return await _jsRuntime.InvokeAsync<string>($"{_moduleName}.create", cancellationToken, elementId, optionsJson, internalOptionsJson, dotnetObj);
+        return await _jsRuntime.InvokeAsync<string>("TurnstileInterop.create", cancellationToken, elementId, optionsJson, internalOptionsJson, dotnetObj);
     }
 
     public ValueTask CreateObserver(string elementId, string widgetId, CancellationToken cancellationToken = default)
     {
-        return _jsRuntime.InvokeVoidAsync($"{_moduleName}.createObserver", cancellationToken, elementId, widgetId);
+        return _jsRuntime.InvokeVoidAsync("TurnstileInterop.createObserver", cancellationToken, elementId, widgetId);
     }
 
     public ValueTask Reset(string widgetId, CancellationToken cancellationToken = default)
