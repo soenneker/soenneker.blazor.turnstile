@@ -38,12 +38,12 @@ public sealed class TurnstileInterop : ITurnstileInterop
         await _resourceLoader.ImportModuleAndWaitUntilAvailable(_module, _moduleName, 100, token);
     }
 
-    public ValueTask Initialize(CancellationToken cancellationToken = default)
+    public async ValueTask Initialize(CancellationToken cancellationToken = default)
     {
         var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
 
         using (source)
-            return _scriptInitializer.Init(linked);
+            await _scriptInitializer.Init(linked);
     }
 
     public async ValueTask<string> Create(DotNetObjectReference<Turnstile> dotnetObj, string elementId, TurnstileOptions options, InternalTurnstileOptions internalOptions,
@@ -62,28 +62,28 @@ public sealed class TurnstileInterop : ITurnstileInterop
         }
     }
 
-    public ValueTask CreateObserver(string elementId, string widgetId, CancellationToken cancellationToken = default)
+    public async ValueTask CreateObserver(string elementId, string widgetId, CancellationToken cancellationToken = default)
     {
         var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
 
         using (source)
-            return _jsRuntime.InvokeVoidAsync("TurnstileInterop.createObserver", linked, elementId, widgetId);
+            await _jsRuntime.InvokeVoidAsync("TurnstileInterop.createObserver", linked, elementId, widgetId);
     }
 
-    public ValueTask Reset(string widgetId, CancellationToken cancellationToken = default)
+    public async ValueTask Reset(string widgetId, CancellationToken cancellationToken = default)
     {
         var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
 
         using (source)
-            return _jsRuntime.InvokeVoidAsync("turnstile.reset", linked, widgetId);
+            await _jsRuntime.InvokeVoidAsync("turnstile.reset", linked, widgetId);
     }
 
-    public ValueTask Remove(string widgetId, CancellationToken cancellationToken = default)
+    public async ValueTask Remove(string widgetId, CancellationToken cancellationToken = default)
     {
         var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
 
         using (source)
-            return _jsRuntime.InvokeVoidAsync("turnstile.remove", linked, widgetId);
+            await _jsRuntime.InvokeVoidAsync("turnstile.remove", linked, widgetId);
     }
 
     public async ValueTask DisposeAsync()
