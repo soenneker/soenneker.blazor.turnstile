@@ -1,11 +1,13 @@
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
-using Soenneker.Blazor.Turnstile.Abstract;
-using System.Threading;
-using Soenneker.Blazor.Turnstile.Options;
-using Soenneker.Utils.Json;
 using Soenneker.Asyncs.Initializers;
+using Soenneker.Blazor.Turnstile.Abstract;
+using Soenneker.Blazor.Turnstile.Options;
 using Soenneker.Blazor.Utils.ResourceLoader.Abstract;
+using Soenneker.Extensions.CancellationTokens;
+using Soenneker.Utils.CancellationScopes;
+using Soenneker.Utils.Json;
+using System.Threading;
 
 namespace Soenneker.Blazor.Turnstile;
 
@@ -19,6 +21,8 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     private const string _module = "Soenneker.Blazor.Turnstile/js/turnstileinterop.js";
     private const string _moduleName = "TurnstileInterop";
+
+    private readonly CancellationScope _cancellationScope = new();
 
     public TurnstileInterop(IJSRuntime jsRuntime, IResourceLoader resourceLoader)
     {
@@ -36,33 +40,50 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     public ValueTask Initialize(CancellationToken cancellationToken = default)
     {
-        return _scriptInitializer.Init(cancellationToken);
+        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+
+        using (source)
+            return _scriptInitializer.Init(linked);
     }
 
     public async ValueTask<string> Create(DotNetObjectReference<Turnstile> dotnetObj, string elementId, TurnstileOptions options, InternalTurnstileOptions internalOptions,
         CancellationToken cancellationToken = default)
     {
-        await _scriptInitializer.Init(cancellationToken);
+        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
 
-        string optionsJson = JsonUtil.Serialize(options)!;
-        string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
+        using (source)
+        {
+            await _scriptInitializer.Init(linked);
 
-        return await _jsRuntime.InvokeAsync<string>("TurnstileInterop.create", cancellationToken, elementId, optionsJson, internalOptionsJson, dotnetObj);
+            string optionsJson = JsonUtil.Serialize(options)!;
+            string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
+
+            return await _jsRuntime.InvokeAsync<string>("TurnstileInterop.create", linked, elementId, optionsJson, internalOptionsJson, dotnetObj);
+        }
     }
 
     public ValueTask CreateObserver(string elementId, string widgetId, CancellationToken cancellationToken = default)
     {
-        return _jsRuntime.InvokeVoidAsync("TurnstileInterop.createObserver", cancellationToken, elementId, widgetId);
+        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+
+        using (source)
+            return _jsRuntime.InvokeVoidAsync("TurnstileInterop.createObserver", linked, elementId, widgetId);
     }
 
     public ValueTask Reset(string widgetId, CancellationToken cancellationToken = default)
     {
-        return _jsRuntime.InvokeVoidAsync("turnstile.reset", cancellationToken, widgetId);
+        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+
+        using (source)
+            return _jsRuntime.InvokeVoidAsync("turnstile.reset", linked, widgetId);
     }
 
     public ValueTask Remove(string widgetId, CancellationToken cancellationToken = default)
     {
-        return _jsRuntime.InvokeVoidAsync("turnstile.remove", cancellationToken, widgetId);
+        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+
+        using (source)
+            return _jsRuntime.InvokeVoidAsync("turnstile.remove", linked, widgetId);
     }
 
     public async ValueTask DisposeAsync()
@@ -70,5 +91,6 @@ public sealed class TurnstileInterop : ITurnstileInterop
         await _resourceLoader.DisposeModule(_module);
 
         await _scriptInitializer.DisposeAsync();
+        await _cancellationScope.DisposeAsync();
     }
 }
