@@ -40,7 +40,7 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     public async ValueTask Initialize(CancellationToken cancellationToken = default)
     {
-        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+        CancellationToken linked = _cancellationScope.CancellationToken.Link(cancellationToken, out CancellationTokenSource? source);
 
         using (source)
             await _scriptInitializer.Init(linked);
@@ -49,7 +49,7 @@ public sealed class TurnstileInterop : ITurnstileInterop
     public async ValueTask<string> Create(DotNetObjectReference<Turnstile> dotnetObj, string elementId, TurnstileOptions options, InternalTurnstileOptions internalOptions,
         CancellationToken cancellationToken = default)
     {
-        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+        CancellationToken linked = _cancellationScope.CancellationToken.Link(cancellationToken, out CancellationTokenSource? source);
 
         using (source)
         {
@@ -64,7 +64,7 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     public async ValueTask CreateObserver(string elementId, string widgetId, CancellationToken cancellationToken = default)
     {
-        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+        CancellationToken linked = _cancellationScope.CancellationToken.Link(cancellationToken, out CancellationTokenSource? source);
 
         using (source)
             await _jsRuntime.InvokeVoidAsync("TurnstileInterop.createObserver", linked, elementId, widgetId);
@@ -72,7 +72,7 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     public async ValueTask Reset(string widgetId, CancellationToken cancellationToken = default)
     {
-        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+        CancellationToken linked = _cancellationScope.CancellationToken.Link(cancellationToken, out CancellationTokenSource? source);
 
         using (source)
             await _jsRuntime.InvokeVoidAsync("turnstile.reset", linked, widgetId);
@@ -80,7 +80,7 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     public async ValueTask Remove(string widgetId, CancellationToken cancellationToken = default)
     {
-        var linked = _cancellationScope.CancellationToken.Link(cancellationToken, out var source);
+        CancellationToken linked = _cancellationScope.CancellationToken.Link(cancellationToken, out CancellationTokenSource? source);
 
         using (source)
             await _jsRuntime.InvokeVoidAsync("turnstile.remove", linked, widgetId);
