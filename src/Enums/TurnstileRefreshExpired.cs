@@ -1,11 +1,11 @@
-using Intellenum;
+using Soenneker.Gen.EnumValues;
 
 namespace Soenneker.Blazor.Turnstile.Enums;
 
 /// <summary>
 /// Represents the options for automatically refreshing the token when it expires.
 /// </summary>
-[Intellenum<string>]
+[EnumValue<string>]
 public sealed partial class TurnstileRefreshExpired
 {
     /// <summary>

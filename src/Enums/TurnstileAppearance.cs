@@ -1,4 +1,4 @@
-using Intellenum;
+using Soenneker.Gen.EnumValues;
 
 namespace Soenneker.Blazor.Turnstile.Enums;
 
@@ -10,7 +10,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// is called after Render(). If appearance is set to interaction-only, the widget will become only visible in
 /// cases where an interaction is required.
 /// </summary>
-[Intellenum<string>]
+[EnumValue<string>]
 public sealed partial class TurnstileAppearance
 {
     /// <summary>

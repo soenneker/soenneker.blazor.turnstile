@@ -1,11 +1,11 @@
-using Intellenum;
+using Soenneker.Gen.EnumValues;
 
 namespace Soenneker.Blazor.Turnstile.Enums;
 
 /// <summary>
 /// Represents the theme options for Turnstile.
 /// </summary>
-[Intellenum<string>]
+[EnumValue<string>]
 public sealed partial class TurnstileTheme
 {
     /// <summary>

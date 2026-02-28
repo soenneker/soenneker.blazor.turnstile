@@ -1,11 +1,11 @@
-using Intellenum;
+using Soenneker.Gen.EnumValues;
 
 namespace Soenneker.Blazor.Turnstile.Enums;
 
 /// <summary>
 /// Represents the retry options for Turnstile.
 /// </summary>
-[Intellenum<string>]
+[EnumValue<string>]
 public sealed partial class TurnstileRetry
 {
     /// <summary>

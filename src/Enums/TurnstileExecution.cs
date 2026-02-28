@@ -1,4 +1,4 @@
-using Intellenum;
+using Soenneker.Gen.EnumValues;
 
 namespace Soenneker.Blazor.Turnstile.Enums;
 
@@ -16,7 +16,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// 2. The challenge runs after the Render() function has been called, by invoking the turnstile.Execute(container: string | HTMLElement, jsParams?: RenderParameters) function separately.
 ///    This detaches the appearance and rendering of a widget from its execution.
 /// </summary>
-[Intellenum<string>]
+[EnumValue<string>]
 public sealed partial class TurnstileExecution
 {
     /// <summary>

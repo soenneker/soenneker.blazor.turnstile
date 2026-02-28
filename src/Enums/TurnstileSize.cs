@@ -1,4 +1,4 @@
-using Intellenum;
+using Soenneker.Gen.EnumValues;
 
 namespace Soenneker.Blazor.Turnstile.Enums;
 
@@ -9,7 +9,7 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 /// Normal  300px   65px
 /// Compact 130px   120px
 /// </summary>
-[Intellenum<string>]
+[EnumValue<string>]
 public sealed partial class TurnstileSize
 {
     /// <summary>
