@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/.github/">
+    <File Path=".github/renovate.json" />
+  </Folder>
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/build-and-test.yml" />
+    <File Path=".github/workflows/publish-package.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Soenneker.Blazor.Turnstile.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/Soenneker.Blazor.Turnstile.Demo/Soenneker.Blazor.Turnstile.Demo.csproj" />
+    <Project Path="test/Soenneker.Blazor.Turnstile.Tests/Soenneker.Blazor.Turnstile.Tests.csproj" />
+  </Folder>
+</Solution>
