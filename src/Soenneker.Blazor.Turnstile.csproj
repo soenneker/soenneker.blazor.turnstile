@@ -46,7 +46,7 @@
         <PackageReference Include="Soenneker.Gen.EnumValues" Version="4.0.19" />
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="4.0.434" />
         <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="4.0.1600" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="4.0.2444" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="4.0.2446" />
         <PackageReference Include="Soenneker.Quark.Components.Core.Cancellable" Version="4.0.43" />
     </ItemGroup>
 </Project>
