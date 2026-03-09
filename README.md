@@ -1,6 +1,7 @@
-﻿[![](https://img.shields.io/nuget/v/soenneker.blazor.turnstile.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.blazor.turnstile/)
+[![](https://img.shields.io/nuget/v/soenneker.blazor.turnstile.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.blazor.turnstile/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.blazor.turnstile/publish-package.yml?style=for-the-badge)](https://github.com/soenneker/soenneker.blazor.turnstile/actions/workflows/publish-package.yml)
 [![](https://img.shields.io/nuget/dt/soenneker.blazor.turnstile.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.blazor.turnstile/)
+[![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.blazor.turnstile/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.blazor.turnstile/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Blazor.Turnstile
 ### A Blazor interop library for Cloudflare Turnstile
@@ -46,4 +47,4 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-⚠️ While 95%+ of the Cloudflare Turnstile JS has been implemented, there are a few features not yet supported. If you need assistance or want to request a new feature, please open an issue or submit a pull request.
+?? While 95%+ of the Cloudflare Turnstile JS has been implemented, there are a few features not yet supported. If you need assistance or want to request a new feature, please open an issue or submit a pull request.
