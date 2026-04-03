@@ -1,3 +1,4 @@
+using Soenneker.Quark;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,6 +33,7 @@ public class Program
             });
 
             builder.Services.AddTurnstileInteropAsScoped();
+            builder.Services.AddQuarkSuiteAsScoped();
 
             WebAssemblyHost host = builder.Build();
 
@@ -73,3 +75,5 @@ public class Program
         Log.Logger = loggerConfig.CreateLogger();
     }
 }
+
+
