@@ -1,23 +1,22 @@
 @page "/second"
 @using Microsoft.Extensions.Logging
 @using Soenneker.Blazor.Turnstile.Options
-@inject ILogger<Index> Logger
+@inject ILogger<Second> Logger
 
-
-<img src="https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png" />
-<h1>Soenneker.Blazor.Turnstile demo</h1>
-<p>This page demonstrates some of the uses of the Turnstile component.</p>
-
-<Turnstile @ref="_turnstile" OnCallback="OnCallback" Options="_options" ></Turnstile>
-
-<button @onclick="Reset" >Reset</button>
-<button @onclick="Remove" >Remove</button>
-
-<NavLink href="/" >Navigate to first page</NavLink>
+<Div Space="Space.Y.Is6">
+    <DemoPanel Title="Turnstile" Description="Second route with default theme.">
+        <Turnstile @ref="_turnstile" OnCallback="OnCallback" Options="_options" />
+        <DemoButtonRow>
+            <Button OnClick="Reset">Reset</Button>
+            <Button OnClick="Remove" Variant="ButtonVariant.Secondary">Remove</Button>
+            <Button To="/" Variant="ButtonVariant.Outline">Home</Button>
+        </DemoButtonRow>
+    </DemoPanel>
+</Div>
 
 @code {
-    private Turnstile? _turnstile { get; set; }
-    private TurnstileOptions _options;
+    private Turnstile? _turnstile;
+    private TurnstileOptions _options = null!;
 
     protected override void OnInitialized()
     {
@@ -41,5 +40,4 @@
     {
         await _turnstile!.Remove();
     }
-
 }
