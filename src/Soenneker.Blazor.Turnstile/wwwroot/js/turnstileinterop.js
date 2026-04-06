@@ -1,9 +1,9 @@
-export class TurnstileInterop
-{
-    observer;
+const interop = (() => {
+    const instance = {};
+    instance.observer = undefined;
+    instance. = undefined;
 
-    async create(elementId, optionsJson, internalOptionsJson, dotnetObj)
-    {
+    instance.create = async function(elementId, optionsJson, internalOptionsJson, dotnetObj) {
         var options = JSON.parse(optionsJson);
         var internalOptions = JSON.parse(internalOptionsJson);
 
@@ -21,7 +21,7 @@ export class TurnstileInterop
         return window.turnstile.render(element, options);
     };
 
-    createObserver(elementId, widgetId) {
+    instance.createObserver = function(elementId, widgetId) {
         const target = document.getElementById(elementId);
 
         this.observer = new MutationObserver(function (mutations) {
@@ -40,7 +40,22 @@ export class TurnstileInterop
         });
 
         this.observer.observe(target.parentNode, { childList: true });
-    }
+    };
+
+    return instance;
+})();
+export function create(elementId, optionsJson, internalOptionsJson, dotnetObj) {
+    return interop.create(elementId, optionsJson, internalOptionsJson, dotnetObj);
 }
 
-window.TurnstileInterop = new TurnstileInterop();
+export function createObserver(elementId, widgetId) {
+    return interop.createObserver(elementId, widgetId);
+}
+
+export function reset(widgetId) {
+    return window.turnstile.reset(widgetId);
+}
+
+export function remove(widgetId) {
+    return window.turnstile.remove(widgetId);
+}
