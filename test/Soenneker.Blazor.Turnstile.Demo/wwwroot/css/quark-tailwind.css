@@ -45,6 +45,7 @@
     --leading-relaxed: 1.625;
     --radius-xs: 0.125rem;
     --radius-4xl: 2rem;
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --animate-spin: spin 1s linear infinite;
     --animate-pulse: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -997,6 +998,9 @@
   .grid-cols-\[calc\(var\(--spacing\)\*4\)_1fr\] {
     grid-template-columns: calc(var(--spacing) * 4) 1fr;
   }
+  .grid-rows-\[0fr\] {
+    grid-template-rows: 0fr;
+  }
   .grid-rows-\[auto_1fr\] {
     grid-template-rows: auto 1fr;
   }
@@ -1914,6 +1918,11 @@
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
+  .transition-\[grid-template-rows\] {
+    transition-property: grid-template-rows;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
   .transition-\[left\,right\,width\] {
     transition-property: left,right,width;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
@@ -1976,6 +1985,10 @@
   .ease-linear {
     --tw-ease: linear;
     transition-timing-function: linear;
+  }
+  .ease-out {
+    --tw-ease: var(--ease-out);
+    transition-timing-function: var(--ease-out);
   }
   .fade-in-0 {
     --tw-enter-opacity: calc(0/100);
@@ -3815,6 +3828,11 @@
   .data-\[state\=open\]\:animate-in {
     &[data-state="open"] {
       animation: enter var(--tw-animation-duration,var(--tw-duration,.15s))var(--tw-ease,ease)var(--tw-animation-delay,0s)var(--tw-animation-iteration-count,1)var(--tw-animation-direction,normal)var(--tw-animation-fill-mode,none);
+    }
+  }
+  .data-\[state\=open\]\:grid-rows-\[1fr\] {
+    &[data-state="open"] {
+      grid-template-rows: 1fr;
     }
   }
   .data-\[state\=open\]\:bg-accent {

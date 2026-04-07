@@ -715,6 +715,7 @@ data-[state=open]:block
 data-[state=open]:duration-500
 data-[state=open]:fade-in-0
 data-[state=open]:focus:bg-accent
+data-[state=open]:grid-rows-[1fr]
 data-[state=open]:hover:bg-accent
 data-[state=open]:hover:bg-sidebar-accent
 data-[state=open]:hover:text-sidebar-accent-foreground
@@ -843,6 +844,7 @@ duration-300
 during
 ease-in-out
 ease-linear
+ease-out
 email
 empty
 empty-content
@@ -965,6 +967,7 @@ grid-cols-[auto_1fr]
 grid-cols-[calc(var(--spacing)*4)_1fr]
 grid-flow-col
 grid-item
+grid-rows-[0fr]
 grid-rows-[auto_1fr]
 group
 group-action
@@ -2361,6 +2364,7 @@ transform
 transform:
 transition
 transition-[color,box-shadow]
+transition-[grid-template-rows]
 transition-[left,right,width]
 transition-[margin,opacity]
 transition-[width,height,padding]
