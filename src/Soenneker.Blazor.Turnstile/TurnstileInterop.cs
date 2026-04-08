@@ -20,7 +20,7 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     private readonly AsyncInitializer _scriptInitializer;
 
-    private const string _wrapperModulePath = "/_content/Soenneker.Blazor.Turnstile/js/turnstileinterop.js";
+    private const string _wrapperModulePath = "_content/Soenneker.Blazor.Turnstile/js/turnstileinterop.js";
 
     private readonly CancellationScope _cancellationScope = new();
 
