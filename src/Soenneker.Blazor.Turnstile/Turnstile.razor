@@ -5,6 +5,7 @@
 @using Soenneker.Blazor.Extensions.EventCallback
 @using Soenneker.Blazor.Turnstile.Options
 @using Soenneker.Extensions.CancellationTokens
+@using Soenneker.Blazor.Utils.Ids
 
 @inherits Soenneker.Quark.CoreCancellableComponent
 
@@ -43,10 +44,7 @@
     private bool _initialized;
     private bool _interopInitialized;
 
-    public Turnstile()
-    {
-        Id = $"turnstile-{Guid.NewGuid()}";
-    }
+    public override string? Id { get; set; } = BlazorIdGenerator.New("turnstile");
 
     protected override bool ShouldRender() => _shouldRender;
 
@@ -81,7 +79,7 @@
             WidgetId = await Create(cancellationToken: cancellationToken);
 
             if (WidgetId != null)
-                await TurnstileInterop.CreateObserver(Id, WidgetId, cancellationToken);
+                await TurnstileInterop.CreateObserver(Id!, WidgetId, cancellationToken);
 
             _shouldRender = false;
             _isCreated = true;
