@@ -49,7 +49,7 @@
         <PackageReference Include="Soenneker.Asyncs.Initializers" Version="4.0.45" />
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="4.0.446" />
         <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="4.0.1649" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="4.0.2510" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="4.0.2512" />
         <PackageReference Include="Soenneker.Quark.Components.Core.Cancellable" Version="4.0.65" />
     </ItemGroup>
 </Project>
