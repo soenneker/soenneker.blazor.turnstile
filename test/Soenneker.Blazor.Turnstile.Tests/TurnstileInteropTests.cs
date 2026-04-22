@@ -1,21 +1,19 @@
 using Soenneker.Blazor.Turnstile.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
-
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.Blazor.Turnstile.Tests;
 
-[Collection("Collection")]
-public class TurnstileInteropTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class TurnstileInteropTests : HostedUnitTest
 {
     private readonly ITurnstileInterop _util;
 
-    public TurnstileInteropTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public TurnstileInteropTests(Host host) : base(host)
     {
         _util = Resolve<ITurnstileInterop>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
