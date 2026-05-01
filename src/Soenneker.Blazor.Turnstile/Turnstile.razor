@@ -6,14 +6,15 @@
 @using Soenneker.Blazor.Turnstile.Options
 @using Soenneker.Extensions.CancellationTokens
 @using Soenneker.Blazor.Utils.Ids
+@using Soenneker.Lepton.Suite
 
-@inherits Soenneker.Quark.CoreCancellableComponent
+@inherits LeptonCancellableIdentifiableContentElement
 
 @implements ITurnstile
 @inject ITurnstileInterop TurnstileInterop
 @inject ILogger<Turnstile> Logger
 
-<div id="@Id" class="cf-turnstile" @attributes="Attributes" ></div>
+<div @attributes='BuildAttributes(("id", Id), ("class", "cf-turnstile"))' ></div>
 
 @code {
     private DotNetObjectReference<Turnstile>? _objRef;
@@ -44,7 +45,10 @@
     private bool _initialized;
     private bool _interopInitialized;
 
-    public override string? Id { get; set; } = BlazorIdGenerator.New("turnstile");
+    public Turnstile()
+    {
+        Id = BlazorIdGenerator.New("turnstile");
+    }
 
     protected override bool ShouldRender() => _shouldRender;
 

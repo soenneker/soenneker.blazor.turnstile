@@ -2,14 +2,14 @@ using Microsoft.AspNetCore.Components;
 using Soenneker.Blazor.Turnstile.Options;
 using System.Threading;
 using System.Threading.Tasks;
-using Soenneker.Quark;
+using Soenneker.Lepton.Suite.Abstract;
 
 namespace Soenneker.Blazor.Turnstile.Abstract;
 
 /// <summary>
 /// A Blazor interop library for Cloudflare Turnstile
 /// </summary>
-public interface ITurnstile : ICoreCancellableComponent
+public interface ITurnstile : ILeptonCancellableIdentifiableContentElement
 {
     /// <summary>
     /// Gets or sets the configuration options for the Turnstile widget.
