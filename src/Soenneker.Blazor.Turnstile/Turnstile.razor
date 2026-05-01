@@ -14,7 +14,7 @@
 @inject ITurnstileInterop TurnstileInterop
 @inject ILogger<Turnstile> Logger
 
-<div @attributes='BuildAttributes(("id", Id), ("class", "cf-turnstile"))' ></div>
+<div @attributes='BuildAttributes(("class", "cf-turnstile"))' ></div>
 
 @code {
     private DotNetObjectReference<Turnstile>? _objRef;
