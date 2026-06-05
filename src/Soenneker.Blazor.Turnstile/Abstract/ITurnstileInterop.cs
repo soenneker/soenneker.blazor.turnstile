@@ -6,6 +6,9 @@ using System;
 
 namespace Soenneker.Blazor.Turnstile.Abstract;
 
+/// <summary>
+/// Defines the turnstile interop contract.
+/// </summary>
 public interface ITurnstileInterop : IAsyncDisposable
 {
     /// <summary>
