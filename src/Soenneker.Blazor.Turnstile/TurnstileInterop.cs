@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace Soenneker.Blazor.Turnstile;
 
-///<inheritdoc cref="ITurnstileInterop"/>
+/// <inheritdoc cref="ITurnstileInterop"/>
 public sealed class TurnstileInterop : ITurnstileInterop
 {
     private readonly IResourceLoader _resourceLoader;
