@@ -15,6 +15,7 @@ public interface ITurnstileInterop : IAsyncDisposable
     /// Initializes the Turnstile script.
     /// </summary>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task that completes when the turnstile is ready for use.</returns>
     ValueTask Initialize(CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -31,22 +32,25 @@ public interface ITurnstileInterop : IAsyncDisposable
     /// <summary>
     /// Creates an observer for a Turnstile widget.
     /// </summary>
-    /// <param name="elementId">The ID of the element.</param>
-    /// <param name="widgetId">The widget ID.</param>
+    /// <param name="elementId">ID of the DOM element to target.</param>
+    /// <param name="widgetId">Identifier of the widget to target.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task that completes when the observer creation is complete.</returns>
     ValueTask CreateObserver(string elementId, string widgetId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resets the specified Turnstile widget.
     /// </summary>
-    /// <param name="widgetId">The widget ID.</param>
+    /// <param name="widgetId">Identifier of the widget to target.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task that completes when the reset operation is complete.</returns>
     ValueTask Reset(string widgetId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Removes the specified Turnstile widget.
     /// </summary>
-    /// <param name="widgetId">The widget ID.</param>
+    /// <param name="widgetId">Identifier of the widget to target.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task that completes when the remove operation is complete.</returns>
     ValueTask Remove(string widgetId, CancellationToken cancellationToken = default);
 }
