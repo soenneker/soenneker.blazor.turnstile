@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Description>A Blazor interop library for Cloudflare Turnstile</Description>
+        <Description>Renders a Cloudflare Turnstile widget in Blazor and exposes its token and lifecycle events.</Description>
         <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.Blazor.Turnstile</AssemblyName>
