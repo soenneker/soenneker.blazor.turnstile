@@ -1,4 +1,4 @@
-let turnstileObserver = undefined;
+const turnstileObservers = new Map();
 
 export async function create(elementId, optionsJson, internalOptionsJson, dotnetObj) {
     var options = JSON.parse(optionsJson);
@@ -21,21 +21,24 @@ export async function create(elementId, optionsJson, internalOptionsJson, dotnet
 export function createObserver(elementId, widgetId) {
     const target = document.getElementById(elementId);
 
-    turnstileObserver = new MutationObserver(function (mutations) {
+    const existingObserver = turnstileObservers.get(widgetId);
+    existingObserver?.disconnect();
+
+    const observer = new MutationObserver(function (mutations) {
         const targetRemoved = mutations.some(function (mutation) {
             const nodes = Array.from(mutation.removedNodes);
             return nodes.indexOf(target) !== -1;
         });
 
         if (targetRemoved) {
-            turnstile.remove(widgetId);
-
-            turnstileObserver && turnstileObserver.disconnect();
-            turnstileObserver = undefined;
+            window.turnstile.remove(widgetId);
+            observer.disconnect();
+            turnstileObservers.delete(widgetId);
         }
     });
 
-    turnstileObserver.observe(target.parentNode, { childList: true });
+    turnstileObservers.set(widgetId, observer);
+    observer.observe(target.parentNode, { childList: true });
 }
 
 export function reset(widgetId) {
@@ -43,5 +46,9 @@ export function reset(widgetId) {
 }
 
 export function remove(widgetId) {
+    const observer = turnstileObservers.get(widgetId);
+    observer?.disconnect();
+    turnstileObservers.delete(widgetId);
+
     return window.turnstile.remove(widgetId);
 }
