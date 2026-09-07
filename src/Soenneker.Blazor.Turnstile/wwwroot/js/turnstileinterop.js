@@ -26,8 +26,7 @@ export function createObserver(elementId, widgetId) {
 
     const observer = new MutationObserver(function (mutations) {
         const targetRemoved = mutations.some(function (mutation) {
-            const nodes = Array.from(mutation.removedNodes);
-            return nodes.indexOf(target) !== -1;
+            return Array.prototype.indexOf.call(mutation.removedNodes, target) !== -1;
         });
 
         if (targetRemoved) {
