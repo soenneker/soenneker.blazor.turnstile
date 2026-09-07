@@ -44,10 +44,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Asyncs.Initializers" Version="4.0.91" />
+        <PackageReference Include="Soenneker.Asyncs.Initializers" Version="4.0.92" />
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="4.0.458" />
         <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="4.0.1734" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="4.0.2683" />
-        <PackageReference Include="Soenneker.Lepton.Suite" Version="4.0.69" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="4.0.2684" />
+        <PackageReference Include="Soenneker.Lepton.Suite" Version="4.0.71" />
     </ItemGroup>
 </Project>
