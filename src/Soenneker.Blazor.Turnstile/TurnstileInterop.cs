@@ -15,6 +15,11 @@ namespace Soenneker.Blazor.Turnstile;
 /// <inheritdoc cref="ITurnstileInterop"/>
 public sealed class TurnstileInterop : ITurnstileInterop
 {
+    private readonly System.Text.Json.JsonSerializerOptions _jsonOptions;
+
+    private System.Text.Json.Serialization.Metadata.JsonTypeInfo<T> GetJsonTypeInfo<T>() =>
+        (System.Text.Json.Serialization.Metadata.JsonTypeInfo<T>)_jsonOptions.GetTypeInfo(typeof(T));
+
     private readonly IResourceLoader _resourceLoader;
     private readonly IModuleImportUtil _moduleImportUtil;
 
@@ -24,8 +29,9 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     private readonly CancellationScope _cancellationScope = new();
 
-    public TurnstileInterop(IResourceLoader resourceLoader, IModuleImportUtil moduleImportUtil)
+    public TurnstileInterop(IResourceLoader resourceLoader, IModuleImportUtil moduleImportUtil, System.Text.Json.Serialization.JsonSerializerContext? jsonContext = null)
     {
+        _jsonOptions = LibraryJsonContext.WithContext(jsonContext);
         _resourceLoader = resourceLoader;
         _moduleImportUtil = moduleImportUtil;
         _scriptInitializer = new AsyncInitializer(InitializeScript);
@@ -55,8 +61,8 @@ public sealed class TurnstileInterop : ITurnstileInterop
         {
             await _scriptInitializer.Init(linked);
 
-            string optionsJson = JsonUtil.Serialize(options)!;
-            string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
+            string optionsJson = JsonUtil.Serialize(options, GetJsonTypeInfo<TurnstileOptions>())!;
+            string internalOptionsJson = JsonUtil.Serialize(internalOptions, GetJsonTypeInfo<InternalTurnstileOptions>())!;
 
             IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
             return await module.InvokeAsync<string>("create", linked, elementId, optionsJson, internalOptionsJson, dotnetObj);

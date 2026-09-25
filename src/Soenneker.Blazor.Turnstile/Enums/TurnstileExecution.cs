@@ -19,6 +19,9 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 [EnumValue<string>]
 public sealed partial class TurnstileExecution
 {
+    // Prevent JSON source generation from assuming an implicit public constructor.
+    private TurnstileExecution() => throw new System.NotSupportedException("Use a declared enum value.");
+
     /// <summary>
     /// The challenge runs automatically after calling the Render() function.
     /// </summary>

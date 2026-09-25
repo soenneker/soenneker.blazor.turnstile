@@ -8,6 +8,9 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 [EnumValue<string>]
 public sealed partial class TurnstileRefreshExpired
 {
+    // Prevent JSON source generation from assuming an implicit public constructor.
+    private TurnstileRefreshExpired() => throw new System.NotSupportedException("Use a declared enum value.");
+
     /// <summary>
     /// Automatically refreshes the token when it expires.
     /// </summary>

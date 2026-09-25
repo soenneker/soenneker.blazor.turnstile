@@ -13,6 +13,9 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 [EnumValue<string>]
 public sealed partial class TurnstileAppearance
 {
+    // Prevent JSON source generation from assuming an implicit public constructor.
+    private TurnstileAppearance() => throw new System.NotSupportedException("Use a declared enum value.");
+
     /// <summary>
     /// The widget is always visible.
     /// </summary>

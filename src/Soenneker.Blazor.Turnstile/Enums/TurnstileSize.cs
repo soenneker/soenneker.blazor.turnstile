@@ -12,6 +12,9 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 [EnumValue<string>]
 public sealed partial class TurnstileSize
 {
+    // Prevent JSON source generation from assuming an implicit public constructor.
+    private TurnstileSize() => throw new System.NotSupportedException("Use a declared enum value.");
+
     /// <summary>
     /// Normal size: Width 300px, Height 65px.
     /// </summary>

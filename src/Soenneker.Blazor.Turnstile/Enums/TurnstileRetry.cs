@@ -8,6 +8,9 @@ namespace Soenneker.Blazor.Turnstile.Enums;
 [EnumValue<string>]
 public sealed partial class TurnstileRetry
 {
+    // Prevent JSON source generation from assuming an implicit public constructor.
+    private TurnstileRetry() => throw new System.NotSupportedException("Use a declared enum value.");
+
     /// <summary>
     /// Represents the automatic retry option.
     /// </summary>
