@@ -9,7 +9,7 @@ namespace Soenneker.Blazor.Turnstile.Abstract;
 /// <summary>
 /// Defines the turnstile interop contract.
 /// </summary>
-/// <remarks>Library DTOs use generated JSON metadata. Register an additional source-generated JsonSerializerContext for custom values inside object-typed properties; unknown CLR types are rejected.</remarks>
+/// <remarks>Payloads use JsonUtil web JSON defaults, including custom values inside object-typed properties.</remarks>
 public interface ITurnstileInterop : IAsyncDisposable
 {
     /// <summary>
