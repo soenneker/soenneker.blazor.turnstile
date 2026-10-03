@@ -214,7 +214,23 @@
 
     public override async ValueTask DisposeAsync()
     {
-        await base.DisposeAsync();
+        try
+        {
+            if (WidgetId is not null)
+                await TurnstileInterop.Remove(WidgetId, CancellationToken.None);
+        }
+        catch (JSException)
+        {
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        finally
+        {
+            _objRef?.Dispose();
+            _objRef = null;
+            await base.DisposeAsync();
+        }
 
         WidgetId = null;
 

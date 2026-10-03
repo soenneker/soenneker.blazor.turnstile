@@ -1,6 +1,6 @@
 const turnstileObservers = new Map();
 
-export async function create(elementId, optionsJson, internalOptionsJson, dotnetObj) {
+export function create(elementId, optionsJson, internalOptionsJson, dotnetObj) {
     var options = JSON.parse(optionsJson);
     var internalOptions = JSON.parse(internalOptionsJson);
 

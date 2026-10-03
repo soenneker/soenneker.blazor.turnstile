@@ -22,7 +22,7 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
     private readonly AsyncInitializer _scriptInitializer;
 
-    private const string _wrapperModulePath = "_content/Soenneker.Blazor.Turnstile/js/turnstileinterop.js";
+    private const string _wrapperModulePath = "./_content/Soenneker.Blazor.Turnstile/js/turnstileinterop.js";
 
     private readonly CancellationScope _cancellationScope = new();
 
@@ -57,8 +57,8 @@ public sealed class TurnstileInterop : ITurnstileInterop
         {
             await _scriptInitializer.Init(linked);
 
-            string optionsJson = JsonUtil.Serialize(options)!;
-            string internalOptionsJson = JsonUtil.Serialize(internalOptions)!;
+            string optionsJson = JsonUtil.Serialize(options, LibraryJsonContext.Default.TurnstileOptions)!;
+            string internalOptionsJson = JsonUtil.Serialize(internalOptions, LibraryJsonContext.Default.InternalTurnstileOptions)!;
 
             IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
             return await module.InvokeAsync<string>("create", linked, elementId, optionsJson, internalOptionsJson, dotnetObj);
