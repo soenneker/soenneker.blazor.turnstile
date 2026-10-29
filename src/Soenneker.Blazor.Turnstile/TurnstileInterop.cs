@@ -1,4 +1,5 @@
 using Microsoft.JSInterop;
+using Soenneker.Blazor.Extensions.IJSObjectReferences;
 using System.Threading.Tasks;
 using Soenneker.Asyncs.Initializers;
 using Soenneker.Blazor.Turnstile.Abstract;
@@ -55,20 +56,13 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         using (source)
         {
-            try
-            {
-                await _scriptInitializer.Init(linked);
+            await _scriptInitializer.Init(linked);
 
-                string optionsJson = JsonUtil.Serialize(options, LibraryJsonContext.Default.TurnstileOptions)!;
-                string internalOptionsJson = JsonUtil.Serialize(internalOptions, LibraryJsonContext.Default.InternalTurnstileOptions)!;
+            string optionsJson = JsonUtil.Serialize(options, LibraryJsonContext.Default.TurnstileOptions)!;
+            string internalOptionsJson = JsonUtil.Serialize(internalOptions, LibraryJsonContext.Default.InternalTurnstileOptions)!;
 
-                IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
-                return await module.InvokeAsync<string>("create", linked, elementId, optionsJson, internalOptionsJson, dotnetObj);
-            }
-            catch (JSException exception)
-            {
-                throw new JSException($"JavaScript operation 'TurnstileInterop.Create' failed: {exception.Message}", exception);
-            }
+            IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
+            return await module.InvokeWithContextAsync<string>("create", linked, elementId, optionsJson, internalOptionsJson, dotnetObj);
         }
     }
 
@@ -78,15 +72,8 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         using (source)
         {
-            try
-            {
-                IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
-                await module.InvokeVoidAsync("createObserver", linked, elementId, widgetId);
-            }
-            catch (JSException exception)
-            {
-                throw new JSException($"JavaScript operation 'TurnstileInterop.CreateObserver' failed: {exception.Message}", exception);
-            }
+            IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
+            await module.InvokeVoidWithContextAsync("createObserver", linked, elementId, widgetId);
         }
     }
 
@@ -96,15 +83,8 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         using (source)
         {
-            try
-            {
-                IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
-                await module.InvokeVoidAsync("reset", linked, widgetId);
-            }
-            catch (JSException exception)
-            {
-                throw new JSException($"JavaScript operation 'TurnstileInterop.Reset' failed: {exception.Message}", exception);
-            }
+            IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
+            await module.InvokeVoidWithContextAsync("reset", linked, widgetId);
         }
     }
 
@@ -114,15 +94,8 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         using (source)
         {
-            try
-            {
-                IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
-                await module.InvokeVoidAsync("remove", linked, widgetId);
-            }
-            catch (JSException exception)
-            {
-                throw new JSException($"JavaScript operation 'TurnstileInterop.Remove' failed: {exception.Message}", exception);
-            }
+            IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
+            await module.InvokeVoidWithContextAsync("remove", linked, widgetId);
         }
     }
 
