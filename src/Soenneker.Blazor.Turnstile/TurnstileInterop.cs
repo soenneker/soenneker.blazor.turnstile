@@ -55,13 +55,20 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         using (source)
         {
-            await _scriptInitializer.Init(linked);
+            try
+            {
+                await _scriptInitializer.Init(linked);
 
-            string optionsJson = JsonUtil.Serialize(options, LibraryJsonContext.Default.TurnstileOptions)!;
-            string internalOptionsJson = JsonUtil.Serialize(internalOptions, LibraryJsonContext.Default.InternalTurnstileOptions)!;
+                string optionsJson = JsonUtil.Serialize(options, LibraryJsonContext.Default.TurnstileOptions)!;
+                string internalOptionsJson = JsonUtil.Serialize(internalOptions, LibraryJsonContext.Default.InternalTurnstileOptions)!;
 
-            IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
-            return await module.InvokeAsync<string>("create", linked, elementId, optionsJson, internalOptionsJson, dotnetObj);
+                IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
+                return await module.InvokeAsync<string>("create", linked, elementId, optionsJson, internalOptionsJson, dotnetObj);
+            }
+            catch (JSException exception)
+            {
+                throw new JSException($"JavaScript operation 'TurnstileInterop.Create' failed: {exception.Message}", exception);
+            }
         }
     }
 
@@ -71,8 +78,15 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         using (source)
         {
-            IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
-            await module.InvokeVoidAsync("createObserver", linked, elementId, widgetId);
+            try
+            {
+                IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
+                await module.InvokeVoidAsync("createObserver", linked, elementId, widgetId);
+            }
+            catch (JSException exception)
+            {
+                throw new JSException($"JavaScript operation 'TurnstileInterop.CreateObserver' failed: {exception.Message}", exception);
+            }
         }
     }
 
@@ -82,8 +96,15 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         using (source)
         {
-            IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
-            await module.InvokeVoidAsync("reset", linked, widgetId);
+            try
+            {
+                IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
+                await module.InvokeVoidAsync("reset", linked, widgetId);
+            }
+            catch (JSException exception)
+            {
+                throw new JSException($"JavaScript operation 'TurnstileInterop.Reset' failed: {exception.Message}", exception);
+            }
         }
     }
 
@@ -93,8 +114,15 @@ public sealed class TurnstileInterop : ITurnstileInterop
 
         using (source)
         {
-            IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
-            await module.InvokeVoidAsync("remove", linked, widgetId);
+            try
+            {
+                IJSObjectReference module = await _moduleImportUtil.GetContentModuleReference(_wrapperModulePath, linked);
+                await module.InvokeVoidAsync("remove", linked, widgetId);
+            }
+            catch (JSException exception)
+            {
+                throw new JSException($"JavaScript operation 'TurnstileInterop.Remove' failed: {exception.Message}", exception);
+            }
         }
     }
 
