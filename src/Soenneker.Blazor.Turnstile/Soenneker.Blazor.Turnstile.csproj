@@ -50,13 +50,13 @@
         <PackageReference Include="Soenneker.Asyncs.Initializers" Version="11.0.140" />
         <PackageReference Include="Soenneker.Blazor.Extensions.EventCallback" Version="11.0.476" />
         <PackageReference Include="Soenneker.Blazor.Utils.ResourceLoader" Version="11.0.1842" />
-        <PackageReference Include="Soenneker.Utils.Json" Version="11.0.2789" />
+        <PackageReference Include="Soenneker.Utils.Json" Version="11.0.2790" />
         <PackageReference Include="Soenneker.Lepton.Suite" Version="11.0.145" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Soenneker.Blazor.Extensions.IJSObjectReferences" Version="11.0.6" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Soenneker.Gen.Web.Minifier" Version="11.0.71" PrivateAssets="all" />
+        <PackageReference Include="Soenneker.Gen.Web.Minifier" Version="11.0.72" PrivateAssets="all" />
     </ItemGroup>
 </Project>
